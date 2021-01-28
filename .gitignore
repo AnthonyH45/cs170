@@ -1,2 +1,4 @@
 secret.config
+__py*
+*/__py*
 
