@@ -16,12 +16,14 @@ def main():
         return 1
 
     if puzzle_type == 1:
-        random_arr = [['1','2','3'], ['4','5','6'],['7','8','0']]
+        random_arr = [[1,2,3], [4,5,6],[7,8,0]]
         random.shuffle(random_arr[0])
         random.shuffle(random_arr[1])
         random.shuffle(random_arr[2])
         random.shuffle(random_arr)
-        print(random_arr)
+        print(random_arr[0])
+        print(random_arr[1])
+        print(random_arr[2])
     elif puzzle_type == 2:
         print("Enter your puzzle, use a zero to represent the blank")
         row_1 = str(input("Enter the first row, use spaces or tabs between numbers\n"))
@@ -39,21 +41,39 @@ def main():
         if len(row_3) < 3 or len(row_3) > 3:
             print("That doesn't look like 3 numbers, please try again later")
             return 1
-        
-        print("\nEnter your choice of algorithm:")
-        print("\t1. Uniform Cost Search")
-        print("\t2. A* with the Misplaced Tile Heuristic")
-        print("\t3. A* with the Manhattan Distance Heuristic")
-        try:
-            algo_choice = int(input(""))
-        except:
-            print("That doesnt look like a number :(")
-            return 1
-
-        problem = [[row_1], [row_2], [row_3]]
-        print(problem)
     else:
         print("Sorry, that was not an option :(")
         return 1
+    
+    print("\nEnter your choice of algorithm:")
+    print("\t1. Uniform Cost Search")
+    print("\t2. A* with the Misplaced Tile Heuristic")
+    print("\t3. A* with the Manhattan Distance Heuristic")
+    try:
+        algo_choice = int(input(""))
+    except:
+        print("That doesnt look like a number :(")
+        return 1
+
+    if algo_choice < 1 or algo_choice > 3:
+        print("That was not a valid algorithm choice")
+        return 1
+
+    # convert the str to int
+    row_1[0] = int(row_1[0])
+    row_1[1] = int(row_1[1])
+    row_1[2] = int(row_1[2])
+    
+    row_2[0] = int(row_2[0])
+    row_2[1] = int(row_2[1])
+    row_2[2] = int(row_2[2])
+
+    row_3[0] = int(row_3[0])
+    row_3[1] = int(row_3[1])
+    row_3[2] = int(row_3[2])
+    problem = [[row_1], [row_2], [row_3]]
+    print(problem[0])
+    print(problem[1])
+    print(problem[2])
 
 main()
