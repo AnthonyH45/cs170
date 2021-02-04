@@ -2,7 +2,7 @@
 # function and an inital problem state for the 8 puzzle
 
 class Problem:
-    def __init__(self, arr: List[List[int]], type=8, goal_state: List[List[int]]):
+    def __init__(self, arr=[], type=8, goal_state=[]):
         # initial state is the given state from the user
         self.initial_state = arr
         # self.operators = ['left','down','right','up']
