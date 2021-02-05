@@ -43,23 +43,26 @@ def main():
         if len(row_3) < 3 or len(row_3) > 3:
             print("That doesn't look like 3 numbers, please try again later")
             return 1
-        problem = [[row_1], [row_2], [row_3]]
+
+        # convert the str to int
+        row_1[0] = int(row_1[0])
+        row_1[1] = int(row_1[1])
+        row_1[2] = int(row_1[2])
+        
+        row_2[0] = int(row_2[0])
+        row_2[1] = int(row_2[1])
+        row_2[2] = int(row_2[2])
+
+        row_3[0] = int(row_3[0])
+        row_3[1] = int(row_3[1])
+        row_3[2] = int(row_3[2])
+        problem = []
+        problem.append(row_1)
+        problem.append(row_2)
+        problem.append(row_3)
     else:
         print("That was not understood, sorry")
-
-    print("\nEnter your choice of algorithm:")
-    print("\t1. Uniform Cost Search")
-    print("\t2. A* with the Misplaced Tile Heuristic")
-    print("\t3. A* with the Manhattan Distance Heuristic")
-    try:
-        algo_choice = int(input(""))
-    except:
-        print("That doesnt look like a number :(")
-        return 1
-
-    if algo_choice > 3 or algo_choice < 1:
-        print("That doesn't look like a valid option, sorry")
-        return 1
+    
     
     print("\nEnter your choice of algorithm:")
     print("\t1. Uniform Cost Search")
@@ -75,24 +78,10 @@ def main():
         print("That was not a valid algorithm choice")
         return 1
 
-    # convert the str to int
-    row_1[0] = int(row_1[0])
-    row_1[1] = int(row_1[1])
-    row_1[2] = int(row_1[2])
-    
-    row_2[0] = int(row_2[0])
-    row_2[1] = int(row_2[1])
-    row_2[2] = int(row_2[2])
-
-    row_3[0] = int(row_3[0])
-    row_3[1] = int(row_3[1])
-    row_3[2] = int(row_3[2])
-    problem = [[row_1], [row_2], [row_3]]
     print(problem[0])
     print(problem[1])
     print(problem[2])
 
-    print(problem)
-    generic(Problem(problem), algo_choice)
+    print("Solution?",generic(Problem(problem), algo_choice))
 
 main()
