@@ -33,12 +33,12 @@ def main():
         if len(row_1) < 3 or len(row_1) > 3:
             print("That doesn't look like 3 numbers, please try again later")
             return 1
-        row_2 = str(input("Enter the first row, use spaces or tabs between numbers\n"))
+        row_2 = str(input("Enter the second row, use spaces or tabs between numbers\n"))
         row_2 = row_2.split()
         if len(row_2) < 3 or len(row_2) > 3:
             print("That doesn't look like 3 numbers, please try again later")
             return 1
-        row_3 = str(input("Enter the first row, use spaces or tabs between numbers\n"))
+        row_3 = str(input("Enter the third row, use spaces or tabs between numbers\n"))
         row_3 = row_3.split()
         if len(row_3) < 3 or len(row_3) > 3:
             print("That doesn't look like 3 numbers, please try again later")
@@ -83,5 +83,6 @@ def main():
     print(problem[2])
 
     print("Solution?",generic(Problem(problem), algo_choice))
+    print("Original state",problem)
 
 main()
