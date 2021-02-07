@@ -88,18 +88,18 @@ def queueing_function(nodes, expansions, algo_choice, goal_state):
         sorted_misplaced = collections.OrderedDict(sorted(misplaced.items()))
 
         # print("Sorted dictionary:", sorted_misplaced)
-        to_ret = []
+        # to_ret = []
         for i,j in enumerate(sorted_misplaced):
             print("adding",misplaced[j],"to our return")
             if len(misplaced[j]) > 1: # this means more than one expansion had the same key/score
                 for i in misplaced[j]:
                     print("more than one expansion detected for the same score, adding\n",i,"to our return")
-                    to_ret.append(i)
+                    nodes.append(i)
             else:
-                to_ret.append(misplaced[j][0])
+                nodes.append(misplaced[j][0])
             print()
-        print("returning",to_ret)
-        return to_ret
+        print("returning",nodes)
+        return nodes
     elif algo_choice == 3:
         print("TODO")
         os.exit(1)
