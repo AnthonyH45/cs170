@@ -1,12 +1,23 @@
-import os
-import collections
 # this implements the generic search algorithm and takes in a queueing 
 # function and an inital problem state for the 8 puzzle
+import collections
+import os
+
+# Node is a single 3x3 grid representing a state of the 8puzzle
+# depth is where it is in the tree
+# score is for heuristic 
+# -- used for number of misplaced in Misplaced Tile
+# -- used for distance for Manhattan Distance
+class Node:
+    def __init__(self, state, depth, score):
+        self.state = state
+        self.depth = depth
+        self.score = score 
 
 class Problem:
-    def __init__(self, arr=[], type=8, goal_state=[]):
+    def __init__(self, arr=[[],[],[]], type=8, goal_state=[[],[],[]]):
         # initial state is the given state from the user
-        self.initial_state = arr
+        self.initial_state = self.make_node(arr,0,0) # this is the root node of the tree
         # self.operators = ['left','down','right','up']
         # we turned the above line into tuples to add to traverse the grid
         self.operators = [(-1,0),(0,-1),(1,0),(0,1)]
@@ -15,20 +26,15 @@ class Problem:
         else:
             self.goal_state = goal_state
 
-# Node is a single 3x3 grid representing a state of the 8puzzle 
-class Node:
-    def __init__(self, state):
-        self.state = state
+    def make_node(given_p: Problem):
+        return Node(given_state)
 
-# Turns a problem into a node
-def make_node(given_state: Problem):
-    return Node(given_state)
-
-# returns a List[Node] to visit
-# to_visit = []
-def make_queue(node: Node):
-    # to_visit.append(node.state)
-    return [node.state];
+    # returns a List[Node] to visit
+    # to_visit = []
+    def make_queue(node: Node):
+        # to_visit.append(node.state)
+        return [node.state];
+    
 
 '''
 nodes is the current state
@@ -39,6 +45,9 @@ algo_choice =
     1. Uniform Cost Search
     2. A* with misplaced
     3. A* with manhattan
+A*: f(n) = g(n) + h(n)
+g(n) is the cost to goto a node
+h(n) is the estimated distance to the goal
 '''
 # to_ret = []
 def queueing_function(nodes, expansions, algo_choice, goal_state):
@@ -55,7 +64,7 @@ def queueing_function(nodes, expansions, algo_choice, goal_state):
         # key -> value ; score -> list[expansions[i]]
         # we use a list to append expansions that have the same score
         # we then sort the dictionary by the score
-        # and return the list of expansions, not the dictionary
+        # and return the ordered list of expansions, not the dictionary
 
         # for each misplaced tile, we add 1, the lower the better
         # misplaced is the dictionary
@@ -153,7 +162,7 @@ def expand(curr_node, operators):
                 temp = to_add_arr[pos_0[0]+i[0]][pos_0[1]+i[1]]
                 to_add_arr[pos_0[0]+i[0]][pos_0[1]+i[1]] = 0
                 to_add_arr[pos_0[0]][pos_0[1]] = temp
-                print("Expanding")
+                print("Expanding to")
                 print(to_add_arr[0]) #, curr_node[0])
                 print(to_add_arr[1]) #, curr_node[1])
                 print(to_add_arr[2]) #, curr_node[2])
@@ -163,8 +172,7 @@ def expand(curr_node, operators):
                 else:
                     to_ret.append(to_add_arr)
                     seen.append(to_add_arr)
-    print("returning expansions", to_ret)
-    print()
+    print("returning expansions", to_ret, "\n")
     return to_ret
 
 def generic(problem: Problem, algo_choice=2):
@@ -178,39 +186,17 @@ def generic(problem: Problem, algo_choice=2):
             return "No solution"
         # pop off the first node off the queue
         curr_node = nodes[0]
-        # if len(curr_node[0]) > 1:
-        #     curr_node = nodes[0][0]
-        #     nodes[0] = nodes[0][1:]
-        # else:
-            # remove the first node
         nodes = nodes[1:]
-        # to_visit = to_visit[1:]
         tick += 1
         print("looking at",curr_node)
         if curr_node == problem.goal_state:
-            print("Found goal state!\n")
+            print("Found goal state! Total expansions", tick, "\n")
             return curr_node
-        # the node is not the goal state
-        # so we expand our nodes and restart
+        # tick count represents maximum expansions
         if tick == 500000:
             print("Tick count of",tick,"Exceeded")
             return "took too long"
+        # the node is not the goal state   
+        # so we expand our nodes and restart
         nodes = queueing_function(nodes, expand(curr_node, problem.operators), algo_choice, problem.goal_state)
     return "No solution"
-
-        # if curr_node in seen:
-        #     # print("already seen this node, skipping it")
-        #     if len(nodes) == 0:
-        #         print("Oh no, there isnt another node, looks like no solution :(")
-        #         return "No solution"
-        #     else:
-        #         # while we HAVE seen this node, skip and find the first next unseen
-        #         while curr_node in seen:
-        #             print("seen this node, skipping", curr_node)
-        #             if len(nodes) == 0:
-        #                 return "Could not find an unseen node, possible no solution :("
-        #             curr_node = nodes[0]
-        #             nodes = nodes[1:]
-        # else:
-        #     seen.append(curr_node)
-        # if problem.goal_state(node.state):

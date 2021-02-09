@@ -1,0 +1,29 @@
+can be solved with my misplaced tiles
+1 2 3
+4 0 6
+7 5 8
+
+1 0 3
+4 2 6
+7 5 8
+
+1 2 3
+0 4 6
+7 5 8
+
+1 2 3
+4 5 6
+7 0 8
+
+cannot be solved right now
+7 2 3
+1 4 8
+5 6 0
+
+7 2 3
+1 4 0
+5 6 8
+
+2 8 6
+3 5 4
+0 7 1

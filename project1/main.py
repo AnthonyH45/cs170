@@ -6,7 +6,8 @@
  and we get back our solution (if there is one)
 '''
 import random
-from generic import *
+# from generic import *
+from newgeneric import *
 
 def main():
     print("Welcome to Anthony Hallak's 8-puzzle solver!\n")
