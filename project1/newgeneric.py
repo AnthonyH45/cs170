@@ -1,3 +1,5 @@
+import time
+
 class Node:
     def __init__(self, state=[[],[],[]], depth=0, score=0):
         self.state = state
@@ -21,6 +23,7 @@ class Problem:
     def __init__(self, arr=[[],[],[]], puzzle_type=8, goal_state=[[],[],[]], algo_choice=2):
         self.init_state = Node(arr,0,0)
         self.puzzle_type = puzzle_type
+        self.seen = []
         self.seen_exp = []
         self.algo_choice = algo_choice
         self.num_exp = 0
@@ -51,53 +54,76 @@ class Problem:
                         print("found one already seen expansion, not adding it to queue")
                     else:
                         to_ret.append(to_add_node)
+                        to_add_node.print()
                         self.seen_exp.append(to_add_node.state)
         
         if len(to_ret) == 0:
-            return [node]
+            return []
         
         self.num_exp += len(to_ret)
-
+        
         return to_ret
 
     def queueing_function(self, nodes, expansions):
         if self.algo_choice == 1:
-            print("TODO")
             for i in expansions:
                 nodes.append(i)
             return nodes
+
         if self.algo_choice == 2:
             print("Using A* with misplaced tile heuristic")
             
             to_ret = []
             for exp in expansions:
+                if exp.state not in self.seen:
+                    if exp.state == self.goal_state.state:
+                        print("Found goal state in queueing, returning!")
+                        return [exp]
+
+                    misplaced_sum = 0
+                    for i in range(0,3):
+                        for j in range(0,3):
+                            if exp.state[i][j] != self.goal_state.state[i][j]:
+                                misplaced_sum = misplaced_sum + 1
+                
+                    exp.score = misplaced_sum
+                    to_ret.append(exp)
+                    self.seen.append(exp.state)
+
+            for i in nodes:
+                to_ret.append(i)
+
+            to_ret.sort(key=lambda x: x.score)
+            time.sleep(1)
+            return to_ret
+        
+        if self.algo_choice == 3:
+            print("Using A* with manhattan distance heuristic")
+
+            to_ret = []
+            third = [2,0,1]
+            for exp in expansions:
                 if exp.state == self.goal_state.state:
                     print("Found goal state in queueing, returning!")
                     return [exp]
-
-                misplaced_sum = 0
-
+                
+                manhattan_d = 0
                 for i in range(0,3):
                     for j in range(0,3):
-                        if exp.state[i][j] != self.goal_state.state[i][j]:
-                            misplaced_sum = misplaced_sum + 1
+                        r = ( ((exp.state[i][j] - 1)//3) + ((exp.state[i][j] == 0)*2) )
+                        c = third[ (exp.state[i][j] % 3) ]
+                        manhattan_d += ( (r != i) + (c != j) )
                 
-                exp.score = misplaced_sum
+                exp.score = manhattan_d
                 to_ret.append(exp)
-
-                to_ret.sort(key=lambda x: x.score)
+                self.seen.append(exp)
             
             for i in nodes:
                 to_ret.append(i)
 
-            print("to_ret")
-            for i in to_ret:
-                print(i.score)
-                i.print()
+            to_ret.sort(key=lambda x: x.score)
+            # time.sleep(1)
             return to_ret
-        if self.algo_choice == 3:
-            print("TODO")
-            return []
 
 def generic(problem: Problem, algo_choice=2):
     if problem.init_state.state == problem.goal_state.state:
@@ -111,11 +137,14 @@ def generic(problem: Problem, algo_choice=2):
         
         curr_node = nodes[0]
         nodes = nodes[1:]
-        if curr_node.state in problem.seen_exp:
-            print("seen this node, skipping")
+        # while curr_node in seen:
+        #     print("seen this node, skipping")
+        #     curr_node = nodes[0]
+        #     nodes = nodes[1:]
         
+        # seen.append(curr_node)
         tick += 1
-        problem.seen_exp.append(curr_node.state)
+        problem.seen.append(curr_node.state)
         
         print("Current Depth:",curr_node.depth)
         print("Looking at")
@@ -124,14 +153,14 @@ def generic(problem: Problem, algo_choice=2):
         if curr_node.state == problem.goal_state.state:
             print("Found solution at depth", curr_node.depth)
             print("Total number of expanded nodes:", problem.num_exp)
-            print("Total number of seen nodes:",len(problem.seen_exp))
+            print("Total number of seen nodes:",len(problem.seen))
             return curr_node.state
         
         if tick == 500000:
             print("Tick count of",tick,"exceeded!")
             return "took too long"
 
-        if curr_node.depth > 60:
+        if curr_node.depth > 100:
             print("depth of",curr_node.depth,"and no solution, quitting")
             return "too far down without a solution"
 

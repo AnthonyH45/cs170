@@ -83,7 +83,7 @@ def main():
     print(problem[1])
     print(problem[2])
 
-    print("Solution?",generic(Problem(problem), algo_choice))
+    print("Solution?",generic(Problem(problem,8,0,algo_choice)))
     print("Original state",problem)
 
 main()
