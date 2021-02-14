@@ -137,11 +137,11 @@ class Problem:
                 # each number's distance is summed and that is assgined as the nodes score
                 for i in range(0,3):
                     for j in range(0,3):
-                        # 3am on a friday, I worked it out on my whiteboard lol
                         # this took a while to figure out, but it maps numbers [0,8] to their respective position in the goal state!
+                        # since python treats bools like C/C++, we can use a branchless statement to check  for 0 and add 2 in one go!
                         r = ( ((exp.state[i][j] - 1)//3) + ((exp.state[i][j] == 0)*2) ) # gets the row of the i,j in the goal state
                         c = third[ (exp.state[i][j] % 3) ]                              # gets the column of the i,j in the goal state
-                        # epic branchless addition, no need for if statements since python treats bools like C/C++, True == 1, False == 0
+                        # take the difference between the goal and current positions, that is the distance, similar to distance formula from math class!
                         manhattan_d += ( abs(r-i) + abs(c-j) )
                 
                 exp.score = manhattan_d
