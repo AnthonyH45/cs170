@@ -134,7 +134,7 @@ class Problem:
                 
                 manhattan_d = 0
                 # for each square in the state, we find how far from its goal state square it is
-                # each number's distance is summed and that is assgined as the nodes score
+                # each number's distance is summed and that is assgined as the nodes score  
                 for i in range(0,3):
                     for j in range(0,3):
                         # this took a while to figure out, but it maps numbers [0,8] to their respective position in the goal state!

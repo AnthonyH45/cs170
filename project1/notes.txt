@@ -112,3 +112,5 @@ map
 used https://deniz.co/8-puzzle-solver/
 to check my solves and to 
 generate working cases to test
+
+with silver-searcher installed, run `ag "at depth"` to see the depthtraces.txt solutions
