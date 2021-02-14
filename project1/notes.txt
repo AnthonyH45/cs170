@@ -1,3 +1,12 @@
+depth 0; all solve at depth 0
+depth 2; all solve at depth 2
+depth 4; all solve at depth 4
+depth 8;  manhatten & uniform solves at depth 8, misplaced solves at depth 40
+depth 12; misplaced doesnt solve, manhattan solves at depth 98, uniform solves at depth 12
+depth 16; manhattan solves, misplaced and uniform dont solve
+depth 20; misplaced and uniform cant solve, manhattan finds solution at depth 34
+depth 24; manhattan,misplaced stops at 101 depth, uniform outgrows tick count
+
 depth 0
 1 2 3
 4 5 6

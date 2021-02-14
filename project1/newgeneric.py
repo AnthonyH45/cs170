@@ -199,13 +199,13 @@ def generic(problem: Problem, algo_choice=2):
             print("Seconds elapsed WITHOUT printing:", end-start)
             return curr_node.state
         
-        if tick == 50000:
+        if tick == 500000:
             print("Tick count of",tick,"exceeded!")
             return "took too long"
 
-        if curr_node.depth > 100:
-            print("depth of",curr_node.depth,"and no solution, quitting")
-            return "too far down without a solution"
+        # if curr_node.depth > 100:
+        #     print("depth of",curr_node.depth,"and no solution, quitting")
+        #     return "too far down without a solution"
 
         nodes = problem.queueing_function(nodes, problem.expand(curr_node,curr_node.operators))
     return "No solution"
