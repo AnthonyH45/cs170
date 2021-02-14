@@ -1,5 +1,13 @@
 import time
 
+'''
+Node:
+    - state: 3x3 grid representing a state in the 8 puzzle
+    - depth: holds the depth from the given problem
+    - score: based on user selected heuristic
+    - find_blank(): returns (i,j) position of 0 in state
+    - print(): prints each row of the state and a newline at the end
+'''
 class Node:
     def __init__(self, state=[[],[],[]], depth=0, score=0):
         self.state = state
@@ -19,14 +27,25 @@ class Node:
         print(self.state[2])
         print()
 
+'''
+Problem:
+    - arr: 3x3 grid to make a initial Node state
+    - puzzle_type: specifies the type of puzzle to solve
+    - goal_state: 3x3 grid to find a path to
+    - algo_choice: determines which heuristic to use
+    - make_node(): returns self.init_state node
+    - make_queue(node): returns [node]
+    - expand(node, operators): returns a list of expanded nodes, the blank is swapped using the operators
+    - queueing_function(node, expansions): gives each expansion a score according to the heuristic, and appends each node to it
+'''
 class Problem:
     def __init__(self, arr=[[],[],[]], puzzle_type=8, goal_state=[[],[],[]], algo_choice=2):
-        self.init_state = Node(arr,0,0)
-        self.puzzle_type = puzzle_type
-        self.seen = []
-        self.seen_exp = []
-        self.algo_choice = algo_choice
-        self.num_exp = 0
+        self.init_state = Node(arr,0,0)     # inital state is a node with 0 depth and 0 score
+        self.puzzle_type = puzzle_type      # determines which puzzle to sovle, right now, only 8 puzzle
+        self.seen = []                      # to remove duplicates from being seen more than once
+        self.seen_exp = []                  # prevents returning already seen expansions
+        self.algo_choice = algo_choice      # determines which heuristic to use
+        self.num_exp = 0                    # keeps track of the number of expansions
         if self.puzzle_type == 8:
             self.goal_state = Node([[1,2,3],[4,5,6],[7,8,0]],0,0)
         else:
@@ -54,7 +73,6 @@ class Problem:
                         print("found one already seen expansion, not adding it to queue")
                     else:
                         to_ret.append(to_add_node)
-                        to_add_node.print()
                         self.seen_exp.append(to_add_node.state)
         
         if len(to_ret) == 0:
@@ -66,6 +84,9 @@ class Problem:
 
     def queueing_function(self, nodes, expansions):
         if self.algo_choice == 1:
+            print("Using Uniform Cost Search")
+            # since everything costs the same, we just add the 
+            # expansions to the nodes and return
             for i in expansions:
                 nodes.append(i)
             return nodes
@@ -83,18 +104,22 @@ class Problem:
                     misplaced_sum = 0
                     for i in range(0,3):
                         for j in range(0,3):
+                            # for each misplaced tile, we add one to the score
                             if exp.state[i][j] != self.goal_state.state[i][j]:
                                 misplaced_sum = misplaced_sum + 1
                 
                     exp.score = misplaced_sum
-                    to_ret.append(exp)
-                    self.seen.append(exp.state)
+                    if exp.state not in self.seen:
+                        to_ret.append(exp)
+                        self.seen.append(exp.state)
+                    else:
+                        print("Seen this state, not adding to queue")
 
             for i in nodes:
                 to_ret.append(i)
 
+            # sort list of nodes by score
             to_ret.sort(key=lambda x: x.score)
-            time.sleep(1)
             return to_ret
         
         if self.algo_choice == 3:
@@ -108,11 +133,16 @@ class Problem:
                     return [exp]
                 
                 manhattan_d = 0
+                # for each square in the state, we find how far from its goal state square it is
+                # each number's distance is summed and that is assgined as the nodes score
                 for i in range(0,3):
                     for j in range(0,3):
-                        r = ( ((exp.state[i][j] - 1)//3) + ((exp.state[i][j] == 0)*2) )
-                        c = third[ (exp.state[i][j] % 3) ]
-                        manhattan_d += ( (r != i) + (c != j) )
+                        # 3am on a friday, I worked it out on my whiteboard lol
+                        # this took a while to figure out, but it maps numbers [0,8] to their respective position in the goal state!
+                        r = ( ((exp.state[i][j] - 1)//3) + ((exp.state[i][j] == 0)*2) ) # gets the row of the i,j in the goal state
+                        c = third[ (exp.state[i][j] % 3) ]                              # gets the column of the i,j in the goal state
+                        # epic branchless addition, no need for if statements since python treats bools like C/C++, True == 1, False == 0
+                        manhattan_d += ( abs(r-i) + abs(c-j) )
                 
                 exp.score = manhattan_d
                 to_ret.append(exp)
@@ -121,9 +151,19 @@ class Problem:
             for i in nodes:
                 to_ret.append(i)
 
+            # sort list of nodes by score
             to_ret.sort(key=lambda x: x.score)
-            # time.sleep(1)
             return to_ret
+
+    def print_algo(self):
+        if self.algo_choice == 1:
+            print("Used Uniform Cost Search")
+        elif self.algo_choice == 2:
+            print("Used A* with Misplaced Tiles as the heuristic")
+        elif self.algo_choice == 3:
+            print("Used A* with Manhattan Distance as the heuristic")
+        else:
+            print("Used ???")
 
 def generic(problem: Problem, algo_choice=2):
     if problem.init_state.state == problem.goal_state.state:
@@ -131,18 +171,17 @@ def generic(problem: Problem, algo_choice=2):
     # nodes = problem.make_queue(problem.make_node)
     nodes = [problem.init_state]
     tick = 0
+    start = time.time()
+    max_num_nodes = -1
     while True:
         if len(nodes) == 0:
             return "No Solution :("
         
+        print("number of nodes in the queue:",len(nodes))
+        max_num_nodes = max( [ len(nodes),max_num_nodes ] )
+        print(max_num_nodes)
         curr_node = nodes[0]
         nodes = nodes[1:]
-        # while curr_node in seen:
-        #     print("seen this node, skipping")
-        #     curr_node = nodes[0]
-        #     nodes = nodes[1:]
-        
-        # seen.append(curr_node)
         tick += 1
         problem.seen.append(curr_node.state)
         
@@ -151,12 +190,16 @@ def generic(problem: Problem, algo_choice=2):
         curr_node.print()
 
         if curr_node.state == problem.goal_state.state:
+            end = time.time()
+            problem.print_algo()
             print("Found solution at depth", curr_node.depth)
             print("Total number of expanded nodes:", problem.num_exp)
             print("Total number of seen nodes:",len(problem.seen))
+            print("Largest queue size:",max_num_nodes)
+            print("Seconds elapsed WITHOUT printing:", end-start)
             return curr_node.state
         
-        if tick == 500000:
+        if tick == 50000:
             print("Tick count of",tick,"exceeded!")
             return "took too long"
 

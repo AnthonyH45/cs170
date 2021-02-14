@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 '''
  This is the main driver code for project 1
  This is where the user gives input
@@ -12,12 +12,12 @@ from newgeneric import *
 def main():
     print("Welcome to Anthony Hallak's 8-puzzle solver!\n")
     try:
-        puzzle_type = int(input("Type \"1\" to use a default random puzzle or \"2\" to enter your own\n"))
+        puzzle_type = int(input("Type \"1\" to use a default puzzle or \"2\" to enter your own or \"3\" for a random puzzle!\n"))
     except:
         print("Sorry, we could not understand that :(")
         return 1
 
-    if puzzle_type == 1:
+    if puzzle_type == 3:
         random_arr = [[1,2,3], [4,5,6],[7,8,0]]
         random.shuffle(random_arr[0])
         random.shuffle(random_arr[1])
@@ -29,17 +29,17 @@ def main():
         problem = random_arr
     elif puzzle_type == 2:
         print("Enter your puzzle, use a zero to represent the blank")
-        row_1 = str(input("Enter the first row, use spaces or tabs between numbers\n"))
+        row_1 = str(input("Enter the first row, use spaces or tabs between numbers    "))
         row_1 = row_1.split()
         if len(row_1) < 3 or len(row_1) > 3:
             print("That doesn't look like 3 numbers, please try again later")
             return 1
-        row_2 = str(input("Enter the second row, use spaces or tabs between numbers\n"))
+        row_2 = str(input("Enter the second row, use spaces or tabs between numbers   "))
         row_2 = row_2.split()
         if len(row_2) < 3 or len(row_2) > 3:
             print("That doesn't look like 3 numbers, please try again later")
             return 1
-        row_3 = str(input("Enter the third row, use spaces or tabs between numbers\n"))
+        row_3 = str(input("Enter the third row, use spaces or tabs between numbers    "))
         row_3 = row_3.split()
         if len(row_3) < 3 or len(row_3) > 3:
             print("That doesn't look like 3 numbers, please try again later")
@@ -61,9 +61,14 @@ def main():
         problem.append(row_1)
         problem.append(row_2)
         problem.append(row_3)
+    elif puzzle_type == 1:
+        arr = [[4,1,3],[7,0,6],[8,5,2]]
+        print(arr[0])
+        print(arr[1])
+        print(arr[2])
+        problem = arr
     else:
         print("That was not understood, sorry")
-    
     
     print("\nEnter your choice of algorithm:")
     print("\t1. Uniform Cost Search")
