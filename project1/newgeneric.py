@@ -69,11 +69,11 @@ class Problem:
                     to_add_node.state[pos_0[0]+i[0]][pos_0[1]+i[1]] = 0
                     to_add_node.state[pos_0[0]][pos_0[1]] = temp
 
-                    if to_add_node.state in self.seen_exp:
-                        print("found one already seen expansion, not adding it to queue")
-                    else:
-                        to_ret.append(to_add_node)
-                        self.seen_exp.append(to_add_node.state)
+                    # if to_add_node.state in self.seen_exp:
+                    #     print("found one already seen expansion, not adding it to queue")
+                    # else:
+                    to_ret.append(to_add_node)
+                    #     self.seen_exp.append(to_add_node.state)
         
         if len(to_ret) == 0:
             return []
@@ -115,12 +115,13 @@ class Problem:
                     else:
                         print("Seen this state, not adding to queue")
 
-            for i in nodes:
-                to_ret.append(i)
 
-            # sort list of nodes by score
+            # # sort list of nodes by score
             to_ret.sort(key=lambda x: x.score)
-            return to_ret
+            for i in to_ret:
+                nodes.append(i)
+
+            return nodes
         
         if self.algo_choice == 3:
             print("Using A* with manhattan distance heuristic")
@@ -132,28 +133,29 @@ class Problem:
                     print("Found goal state in queueing, returning!")
                     return [exp]
                 
-                manhattan_d = 0
-                # for each square in the state, we find how far from its goal state square it is
-                # each number's distance is summed and that is assgined as the nodes score  
-                for i in range(0,3):
-                    for j in range(0,3):
-                        # this took a while to figure out, but it maps numbers [0,8] to their respective position in the goal state!
-                        # since python treats bools like C/C++, we can use a branchless statement to check  for 0 and add 2 in one go!
-                        r = ( ((exp.state[i][j] - 1)//3) + ((exp.state[i][j] == 0)*2) ) # gets the row of the i,j in the goal state
-                        c = third[ (exp.state[i][j] % 3) ]                              # gets the column of the i,j in the goal state
-                        # take the difference between the goal and current positions, that is the distance, similar to distance formula from math class!
-                        manhattan_d += ( abs(r-i) + abs(c-j) )
-                
-                exp.score = manhattan_d
-                to_ret.append(exp)
-                self.seen.append(exp)
+                if exp.state not in self.seen:
+                    manhattan_d = 0
+                    # for each square in the state, we find how far from its goal state square it is
+                    # each number's distance is summed and that is assgined as the nodes score  
+                    for i in range(0,3):
+                        for j in range(0,3):
+                            # this took a while to figure out, but it maps numbers [0,8] to their respective position in the goal state!
+                            # since python treats bools like C/C++, we can use a branchless statement to check  for 0 and add 2 in one go!
+                            r = ( ((exp.state[i][j] - 1)//3) + ((exp.state[i][j] == 0)*2) ) # gets the row of the i,j in the goal state
+                            c = third[ (exp.state[i][j] % 3) ]                              # gets the column of the i,j in the goal state
+                            # take the difference between the goal and current positions, that is the distance, similar to distance formula from math class!
+                            manhattan_d += ( abs(r-i) + abs(c-j) )
+                    
+                    exp.score = manhattan_d
+                    to_ret.append(exp)
+                    self.seen.append(exp)
             
-            for i in nodes:
-                to_ret.append(i)
-
             # sort list of nodes by score
             to_ret.sort(key=lambda x: x.score)
-            return to_ret
+            for i in to_ret:
+                nodes.append(i)
+ 
+            return nodes
 
     def print_algo(self):
         if self.algo_choice == 1:
@@ -179,7 +181,6 @@ def generic(problem: Problem, algo_choice=2):
         
         print("number of nodes in the queue:",len(nodes))
         max_num_nodes = max( [ len(nodes),max_num_nodes ] )
-        print(max_num_nodes)
         curr_node = nodes[0]
         nodes = nodes[1:]
         tick += 1
@@ -188,7 +189,7 @@ def generic(problem: Problem, algo_choice=2):
         print("Current Depth:",curr_node.depth)
         print("Looking at")
         curr_node.print()
-
+ 
         if curr_node.state == problem.goal_state.state:
             end = time.time()
             problem.print_algo()
@@ -199,13 +200,13 @@ def generic(problem: Problem, algo_choice=2):
             print("Seconds elapsed WITHOUT printing:", end-start)
             return curr_node.state
         
-        if tick == 500000:
-            print("Tick count of",tick,"exceeded!")
-            return "took too long"
+        # if tick == 500000:
+        #     print("Tick count of",tick,"exceeded!")
+        #     return "took too long"
 
-        # if curr_node.depth > 100:
-        #     print("depth of",curr_node.depth,"and no solution, quitting")
-        #     return "too far down without a solution"
+        if curr_node.depth > 100:
+            print("depth of",curr_node.depth,"and no solution, quitting")
+            return "too far down without a solution"
 
         nodes = problem.queueing_function(nodes, problem.expand(curr_node,curr_node.operators))
     return "No solution"
