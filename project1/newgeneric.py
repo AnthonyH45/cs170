@@ -45,7 +45,7 @@ class Problem:
     def __init__(self, arr: List[List[int]] = [[1,2,3],[4,5,6],[7,8,0]], puzzle_type: int = 8, goal_state: List[List[int]] = [[1,2,3],[4,5,6],[7,8,0]], algo_choice: int = 2):
         self.init_state = Node(arr,0,0)     # inital state is a node with 0 depth and 0 score
         self.puzzle_type = puzzle_type      # determines which puzzle to sovle, right now, only 8 puzzle
-        self.seen = []                      # to remove duplicates from being seen more than once
+        # self.seen = []                      # to remove duplicates from being seen more than once
         self.seen_exp = []                  # prevents returning already seen expansions
         self.algo_choice = algo_choice      # determines which heuristic to use
         self.num_exp = 0                    # keeps track of the number of expansions
@@ -59,6 +59,13 @@ class Problem:
 
     def make_queue(self, node: Node):
         return [node]
+
+    def rem_dups(self, nodes: List[Nodes]):
+        seen = []
+        for i in nodes:
+            if i not in seen:
+                seen.append(i)
+        return seen
 
     def expand(self, node: Node, operators):
         # print("Expanding")
@@ -76,7 +83,7 @@ class Problem:
                         print("already seen this expansion, not adding it to queue")
                     else:
                         to_ret.append(to_add_node)
-                    self.seen_exp.append(to_add_node.state)
+                        self.seen_exp.append(to_add_node.state)
                     # to_ret.append(to_add_node)
         
         if len(to_ret) == 0:
