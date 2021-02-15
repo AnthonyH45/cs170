@@ -1,3 +1,6 @@
+from typing import *
+# fixes 'type object is not subscritptable' error
+# taken from https://stackoverflow.com/questions/24853923/type-hinting-a-collection-of-a-specified-type
 import time
 
 '''
@@ -9,7 +12,7 @@ Node:
     - print(): prints each row of the state and a newline at the end
 '''
 class Node:
-    def __init__(self, state=[[],[],[]], depth=0, score=0):
+    def __init__(self, state: List[List[int]]=[[1,2,3],[4,5,6],[7,8,0]], depth: int = 0, score: int = 0):
         self.state = state
         self.depth = depth
         self.score = score
@@ -39,7 +42,7 @@ Problem:
     - queueing_function(node, expansions): gives each expansion a score according to the heuristic, and appends each node to it
 '''
 class Problem:
-    def __init__(self, arr=[[],[],[]], puzzle_type=8, goal_state=[[],[],[]], algo_choice=2):
+    def __init__(self, arr: List[List[int]] = [[1,2,3],[4,5,6],[7,8,0]], puzzle_type: int = 8, goal_state: List[List[int]] = [[1,2,3],[4,5,6],[7,8,0]], algo_choice: int = 2):
         self.init_state = Node(arr,0,0)     # inital state is a node with 0 depth and 0 score
         self.puzzle_type = puzzle_type      # determines which puzzle to sovle, right now, only 8 puzzle
         self.seen = []                      # to remove duplicates from being seen more than once
@@ -58,7 +61,7 @@ class Problem:
         return [node]
 
     def expand(self, node: Node, operators):
-        print("Expanding")
+        # print("Expanding")
         to_ret = []
         pos_0 = node.find_blank()
         for i in operators:
@@ -69,11 +72,12 @@ class Problem:
                     to_add_node.state[pos_0[0]+i[0]][pos_0[1]+i[1]] = 0
                     to_add_node.state[pos_0[0]][pos_0[1]] = temp
 
-                    # if to_add_node.state in self.seen_exp:
-                    #     print("found one already seen expansion, not adding it to queue")
-                    # else:
-                    to_ret.append(to_add_node)
-                    #     self.seen_exp.append(to_add_node.state)
+                    if to_add_node.state in self.seen_exp:
+                        print("already seen this expansion, not adding it to queue")
+                    else:
+                        to_ret.append(to_add_node)
+                    self.seen_exp.append(to_add_node.state)
+                    # to_ret.append(to_add_node)
         
         if len(to_ret) == 0:
             return []
@@ -82,13 +86,15 @@ class Problem:
         
         return to_ret
 
-    def queueing_function(self, nodes, expansions):
+    def queueing_function(self, nodes: List[Node], expansions: List[Node]):
         if self.algo_choice == 1:
             print("Using Uniform Cost Search")
             # since everything costs the same, we just add the 
             # expansions to the nodes and return
             for i in expansions:
-                nodes.append(i)
+                if i.state not in self.seen:
+                    nodes.append(i)
+                    self.seen.append(i)
             return nodes
 
         if self.algo_choice == 2:
@@ -109,17 +115,14 @@ class Problem:
                                 misplaced_sum = misplaced_sum + 1
                 
                     exp.score = misplaced_sum
-                    if exp.state not in self.seen:
-                        to_ret.append(exp)
-                        self.seen.append(exp.state)
-                    else:
-                        print("Seen this state, not adding to queue")
+                    to_ret.append(exp)
+                    self.seen.append(exp.state)
 
-
-            # # sort list of nodes by score
-            to_ret.sort(key=lambda x: x.score)
             for i in to_ret:
                 nodes.append(i)
+            # # sort list of nodes by score
+            # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
+            nodes.sort(key=lambda x: x.score)
 
             return nodes
         
@@ -140,20 +143,21 @@ class Problem:
                     for i in range(0,3):
                         for j in range(0,3):
                             # this took a while to figure out, but it maps numbers [0,8] to their respective position in the goal state!
-                            # since python treats bools like C/C++, we can use a branchless statement to check  for 0 and add 2 in one go!
+                            # since python treats bools like C/C++, we can use a branchless statement to check for 0 and add 2 in one go!
                             r = ( ((exp.state[i][j] - 1)//3) + ((exp.state[i][j] == 0)*2) ) # gets the row of the i,j in the goal state
                             c = third[ (exp.state[i][j] % 3) ]                              # gets the column of the i,j in the goal state
                             # take the difference between the goal and current positions, that is the distance, similar to distance formula from math class!
                             manhattan_d += ( abs(r-i) + abs(c-j) )
-                    
+
                     exp.score = manhattan_d
                     to_ret.append(exp)
-                    self.seen.append(exp)
+                    self.seen.append(exp.state)
             
             # sort list of nodes by score
-            to_ret.sort(key=lambda x: x.score)
+            # to_ret.sort(key=lambda x: x.score)
             for i in to_ret:
                 nodes.append(i)
+            nodes.sort(key=lambda x: x.score)
  
             return nodes
 
@@ -179,12 +183,12 @@ def generic(problem: Problem, algo_choice=2):
         if len(nodes) == 0:
             return "No Solution :("
         
-        print("number of nodes in the queue:",len(nodes))
+        # print("number of nodes in the queue:",len(nodes))
         max_num_nodes = max( [ len(nodes),max_num_nodes ] )
         curr_node = nodes[0]
         nodes = nodes[1:]
         tick += 1
-        problem.seen.append(curr_node.state)
+        # problem.seen.append(curr_node.state)
         
         print("Current Depth:",curr_node.depth)
         print("Looking at")
@@ -204,8 +208,12 @@ def generic(problem: Problem, algo_choice=2):
         #     print("Tick count of",tick,"exceeded!")
         #     return "took too long"
 
-        if curr_node.depth > 100:
+        if curr_node.depth > 31:
             print("depth of",curr_node.depth,"and no solution, quitting")
+            print("Total number of expanded nodes:", problem.num_exp)
+            print("Total number of seen nodes:",len(problem.seen))
+            # print("Queue",problem.seen)
+            # print("Seconds elapsed WITHOUT printing:", end-start)
             return "too far down without a solution"
 
         nodes = problem.queueing_function(nodes, problem.expand(curr_node,curr_node.operators))
