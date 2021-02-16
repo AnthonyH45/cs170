@@ -45,7 +45,7 @@ class Problem:
     def __init__(self, arr: List[List[int]] = [[1,2,3],[4,5,6],[7,8,0]], puzzle_type: int = 8, goal_state: List[List[int]] = [[1,2,3],[4,5,6],[7,8,0]], algo_choice: int = 2):
         self.init_state = Node(arr,0,0)     # inital state is a node with 0 depth and 0 score
         self.puzzle_type = puzzle_type      # determines which puzzle to sovle, right now, only 8 puzzle
-        # self.seen = []                      # to remove duplicates from being seen more than once
+        self.seen = []                      # to remove duplicates from being seen more than once
         self.seen_exp = []                  # prevents returning already seen expansions
         self.algo_choice = algo_choice      # determines which heuristic to use
         self.num_exp = 0                    # keeps track of the number of expansions
@@ -53,19 +53,12 @@ class Problem:
             self.goal_state = Node([[1,2,3],[4,5,6],[7,8,0]],0,0)
         else:
             self.goal_state = Node(goal_state,0,0)
-    
+
     def make_node(self):
         return self.init_state
 
     def make_queue(self, node: Node):
         return [node]
-
-    def rem_dups(self, nodes: List[Nodes]):
-        seen = []
-        for i in nodes:
-            if i not in seen:
-                seen.append(i)
-        return seen
 
     def expand(self, node: Node, operators):
         # print("Expanding")
@@ -80,8 +73,9 @@ class Problem:
                     to_add_node.state[pos_0[0]][pos_0[1]] = temp
 
                     if to_add_node.state in self.seen_exp:
-                        print("already seen this expansion, not adding it to queue")
+                        print("already seen this expansion, not adding it to queue") # 418813
                     else:
+                        # to_add_node.print()
                         to_ret.append(to_add_node)
                         self.seen_exp.append(to_add_node.state)
                     # to_ret.append(to_add_node)
@@ -105,13 +99,13 @@ class Problem:
             return nodes
 
         if self.algo_choice == 2:
-            print("Using A* with misplaced tile heuristic")
+            # print("Using A* with misplaced tile heuristic")
             
             to_ret = []
             for exp in expansions:
                 if exp.state not in self.seen:
                     if exp.state == self.goal_state.state:
-                        print("Found goal state in queueing, returning!")
+                        # print("Found goal state in queueing, returning!")
                         return [exp]
 
                     misplaced_sum = 0
@@ -125,16 +119,32 @@ class Problem:
                     to_ret.append(exp)
                     self.seen.append(exp.state)
 
+            # for i in to_ret:
+            #     if i.state not in self.seen:
+            #         self.seen.append(i.state)
+            #     nodes.append(i)
+            # # # sort list of nodes by score
+            # # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
+            # nodes.sort(key=lambda x: x.score)
+            # # rem dups
+            # # https://www.geeksforgeeks.org/python-ways-to-remove-duplicates-from-list/
+            # s = []
+            # to_ret = []
+            # for node in nodes:
+            #     if node.state not in s:
+            #         s.append(node.state)
+            #         to_ret.append(node)
+            to_ret.sort(key=lambda x: x.score)
             for i in to_ret:
                 nodes.append(i)
-            # # sort list of nodes by score
-            # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
-            nodes.sort(key=lambda x: x.score)
 
             return nodes
+
+            # time.sleep(1)
+            # return to_ret
         
         if self.algo_choice == 3:
-            print("Using A* with manhattan distance heuristic")
+            # print("Using A* with manhattan distance heuristic")
 
             to_ret = []
             third = [2,0,1]
@@ -161,10 +171,10 @@ class Problem:
                     self.seen.append(exp.state)
             
             # sort list of nodes by score
-            # to_ret.sort(key=lambda x: x.score)
+            to_ret.sort(key=lambda x: x.score)
             for i in to_ret:
                 nodes.append(i)
-            nodes.sort(key=lambda x: x.score)
+            # nodes.sort(key=lambda x: x.score)
  
             return nodes
 
@@ -181,7 +191,7 @@ class Problem:
 def generic(problem: Problem, algo_choice=2):
     if problem.init_state.state == problem.goal_state.state:
         return "Hey! The initial state is already solved!"
-    # nodes = problem.make_queue(problem.make_node)
+    # nodes = problem.make_queue(problem.make_node) 28904.824   28879.22945
     nodes = [problem.init_state]
     tick = 0
     start = time.time()
@@ -197,16 +207,16 @@ def generic(problem: Problem, algo_choice=2):
         tick += 1
         # problem.seen.append(curr_node.state)
         
-        print("Current Depth:",curr_node.depth)
-        print("Looking at")
-        curr_node.print()
+        # print("Current Depth:",curr_node.depth)
+        # print("Looking at")
+        # curr_node.print()
  
         if curr_node.state == problem.goal_state.state:
             end = time.time()
             problem.print_algo()
             print("Found solution at depth", curr_node.depth)
             print("Total number of expanded nodes:", problem.num_exp)
-            print("Total number of seen nodes:",len(problem.seen))
+            # print("Total number of seen nodes:",len(problem.seen))
             print("Largest queue size:",max_num_nodes)
             print("Seconds elapsed WITHOUT printing:", end-start)
             return curr_node.state
@@ -215,10 +225,10 @@ def generic(problem: Problem, algo_choice=2):
         #     print("Tick count of",tick,"exceeded!")
         #     return "took too long"
 
-        if curr_node.depth > 31:
+        if curr_node.depth > 100:
             print("depth of",curr_node.depth,"and no solution, quitting")
             print("Total number of expanded nodes:", problem.num_exp)
-            print("Total number of seen nodes:",len(problem.seen))
+            # print("Total number of seen nodes:",len(problem.seen))
             # print("Queue",problem.seen)
             # print("Seconds elapsed WITHOUT printing:", end-start)
             return "too far down without a solution"

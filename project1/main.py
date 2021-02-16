@@ -62,7 +62,8 @@ def main():
         problem.append(row_2)
         problem.append(row_3)
     elif puzzle_type == 1:
-        arr = [[4,1,3],[7,0,6],[8,5,2]]
+        # arr = [[4,1,3],[7,0,6],[8,5,2]] 
+        arr = [[7,1,2],[4,8,5],[6,3,0]] # depth 20 ; given from prof
         print(arr[0])
         print(arr[1])
         print(arr[2])
