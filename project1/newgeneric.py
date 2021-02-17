@@ -93,13 +93,13 @@ class Problem:
 
                     # deal with duplicates in queueing ?
                     # we have less nodes expanded but takes longer
-                    if to_add_node in self.exp_set:
-                        print("already seen this expansion, not adding it to queue")
-                    else:
-                        # to_add_node.print()
-                        to_ret.append(to_add_node)
-                        self.exp_set.add(to_add_node)
-                    # to_ret.append(to_add_node)
+                    # if to_add_node in self.exp_set:
+                    #     print("already seen this expansion, not adding it to queue")
+                    # else:
+                    #     # to_add_node.print()
+                    #     to_ret.append(to_add_node)
+                    #     self.exp_set.add(to_add_node)
+                    to_ret.append(to_add_node)
 
         if len(to_ret) == 0:
             return []

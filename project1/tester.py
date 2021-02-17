@@ -7,7 +7,7 @@ with silver search installed, run
 `ag "at depth" -B 1 -A 6 trace_upto20_desktop.txt`
 to print out 1 line before and 6 lines after the match of "at depth"
 In one command:
-python3 tester.py 1>trace_upto20_desktop.txt && ag "at depth" -B 1 -A 6 trace_upto20_desktop.txt
+python3 tester.py 1>all_traces_desktop_dupsInExpand.txt && ag "at depth" -B 1 -A 6 all_traces_desktop_dupsInExpand.txt > all_solves_dupsInExpand.txt
 
 NOTE 2:
 1 == uniform
@@ -45,5 +45,4 @@ for p in problems:
         print("Original state",p[1])
         print("END")
         print()
-        time.sleep(1)
     print("=================================================")
