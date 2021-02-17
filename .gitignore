@@ -5,3 +5,5 @@ __py*
 
 project1/testing_manhattan_tile24.txt
 project1/testing_misplaced_tile24.txt
+project1/all_traces_desktop.txt
+project1/all_traces_dupsInExpand.txt
