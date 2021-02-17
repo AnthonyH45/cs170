@@ -25,9 +25,9 @@ class Node:
                     return (i,j)
 
     def print(self):
-        print(self.state[0])
-        print(self.state[1])
-        print(self.state[2])
+        print(self.state[0],'\tDepth, g(n):',self.depth)
+        print(self.state[1],'\tScore, h(n):',self.score-self.depth)
+        print(self.state[2],'\tf(n)',self.score)
         print()
 
     # https://docs.python.org/3/reference/datamodel.html#object.__eq__
@@ -51,7 +51,7 @@ class Problem:
     def __init__(self, arr: List[List[int]] = [[1,2,3],[4,5,6],[7,8,0]], puzzle_type: int = 8, goal_state: List[List[int]] = [[1,2,3],[4,5,6],[7,8,0]], algo_choice: int = 2):
         self.init_state = Node(arr,0,0)     # inital state is a node with 0 depth and 0 score
         self.puzzle_type = puzzle_type      # determines which puzzle to sovle, right now, only 8 puzzle
-        self.seen = []                      # to remove duplicates from being seen more than once
+        self.seen: List[List[int]] = []     # to remove duplicates from being seen more than once
         self.seen_exp = []                  # prevents returning already seen expansions
         self.algo_choice = algo_choice      # determines which heuristic to use
         self.num_exp = 0                    # keeps track of the number of expansions
@@ -66,6 +66,7 @@ class Problem:
     def make_queue(self, node: Node):
         return [node]
 
+    # https://www.geeksforgeeks.org/python-ways-to-remove-duplicates-from-list/
     def rem_dups(self, nodes: List[Node]):
         to_ret = []
         for i in nodes:
@@ -74,26 +75,25 @@ class Problem:
         return to_ret
 
     def expand(self, node: Node, operators):
-        #print("Expanding")
+        print("Expanding")
         to_ret = []
         pos_0 = node.find_blank()
+        self.seen_exp.append(node.state)
         for i in operators:
             if (pos_0[0]+i[0]) > -1 and (pos_0[0]+i[0]) < 3:
                 if (pos_0[1]+i[1]) > -1 and (pos_0[1]+i[1]) < 3:
-                    to_add_node = Node([[j for j in l] for l in node.state],node.depth+1 ,0)
+                    to_add_node = Node([[j for j in l] for l in node.state],node.depth+1, node.depth+1)
                     temp = to_add_node.state[pos_0[0]+i[0]][pos_0[1]+i[1]]
                     to_add_node.state[pos_0[0]+i[0]][pos_0[1]+i[1]] = 0
                     to_add_node.state[pos_0[0]][pos_0[1]] = temp
 
-                    # deal with duplicates in queueing instead
-                    # less nodes are expanded but doubles 
-                    # the time for all of them for some reason
-                    #if to_add_node.state in self.seen_exp:
-                        #print("already seen this expansion, not adding it to queue")
-                    #else:
-                        # to_add_node.print()
-                        #to_ret.append(to_add_node)
-                        #self.seen_exp.append(to_add_node.state)
+                    # if to_add_node.state in self.seen_exp:
+                    #     print("already seen this expansion, not adding it to queue")
+                    # else:
+                    #     to_add_node.print()
+                    #     to_ret.append(to_add_node)
+                    #     self.seen_exp.append(to_add_node.state)
+                    # deal with duplicates in queueing
                     to_ret.append(to_add_node)
 
         if len(to_ret) == 0:
@@ -105,7 +105,7 @@ class Problem:
 
     def queueing_function(self, nodes: List[Node], expansions: List[Node]):
         if self.algo_choice == 1:
-            #print("Using Uniform Cost Search")
+            print("Using Uniform Cost Search")
             # since everything costs the same, we just add the 
             # expansions to the nodes and return
             for i in expansions:
@@ -116,7 +116,7 @@ class Problem:
             return nodes
 
         if self.algo_choice == 2:
-            #print("Using A* with misplaced tile heuristic")
+            print("Using A* with misplaced tile heuristic")
 
             to_ret = []
             for exp in expansions:
@@ -126,51 +126,33 @@ class Problem:
                         return [exp]
 
                     misplaced_sum = 0
-                    for i in range(0,3): # we know 8 puzzle is 3x3
-                        for j in range(0,3): # so no need to call len(exp.state) and len(exp.state[0])
+                    for i in range(0,len(exp.state)): # we know 8 puzzle is 3x3
+                        for j in range(0,len(exp.state[0])): # so no need to call len(exp.state) and len(exp.state[0])
                             # for each misplaced tile, we add one to the score
                             if exp.state[i][j] != 0:
                                 if exp.state[i][j] != self.goal_state.state[i][j]:
                                     misplaced_sum = misplaced_sum + 1
-
-                    exp.score = misplaced_sum
+                    # score is already assigned to depth
+                    # score = f(n) = g(n) + h(n)
+                    # g(n) is the _cost to_ aka the depth, already assigned in the expansion
+                    # h(n) is the heuristic score, aka the manhattan or misplaced
+                    # so we just add h(n) to g(n) and be done!
+                    exp.score += misplaced_sum
                     to_ret.append(exp)
                     self.seen.append(exp.state)
 
             # sort expansions by misplaced tiles, smallest first
+            # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
             to_ret.sort(key=lambda x: x.score)
             for i in to_ret:
                 nodes.append(i)
-
-            #return self.rem_dups(nodes)
+            print("Best node with g(n)=", nodes[0].depth, "and h(n)=",nodes[0].score - nodes[0].depth)
+            nodes[0].print()
+            
             return nodes
 
-            # for i in to_ret:
-            #     if i.state not in self.seen:
-            #         self.seen.append(i.state)
-            #     nodes.append(i)
-            # # # sort list of nodes by score
-            # # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
-            # nodes.sort(key=lambda x: x.score)
-            # # rem dups
-            # # https://www.geeksforgeeks.org/python-ways-to-remove-duplicates-from-list/
-            # s = []
-            # to_ret = []
-            # for node in nodes:
-            #     if node.state not in s:
-            #         s.append(node.state)
-            #         to_ret.append(node)
-            # to_ret.sort(key=lambda x: x.score)
-            # for i in to_ret:
-            #    nodes.append(i)
-
-            # return nodes
-
-            # time.sleep(1)
-            # return to_ret
-
         if self.algo_choice == 3:
-            #print("Using A* with manhattan distance heuristic")
+            print("Using A* with manhattan distance heuristic")
 
             to_ret = []
             third = [2,0,1]
@@ -179,31 +161,42 @@ class Problem:
                     print("Found goal state in queueing, returning!")
                     return [exp]
 
+                # if exp.state in self.seen:
+                    # a = 1
+                # else:
+                # if True:
                 if exp.state not in self.seen:
                     manhattan_d = 0
                     # for each square in the state, we find how far from its goal state square it is
                     # each number's distance is summed and that is assgined as the nodes score  
-                    for i in range(0,3):
-                        for j in range(0,3):
+                    for i in range(0,len(exp.state)):
+                        for j in range(0,len(exp.state[0])):
                             # this took a while to figure out, but it maps numbers [0,8] to their respective position in the goal state!
                             # since python treats bools like C/C++, we can use a branchless statement to check for 0 and add 2 in one go!
                             if exp.state[i][j] != 0:
-                                r = ((exp.state[i][j] - 1)//3) #+ ((exp.state[i][j] == 0)*2) ) # gets the row of the i,j in the goal state
-                                c = third[ (exp.state[i][j] % 3) ]                              # gets the column of the i,j in the goal state
+                                # len(exp.state[0]) == 3 for 8 puzzle
+                                r = ((exp.state[i][j] - 1)// len(exp.state[0])) #+ ((exp.state[i][j] == 0)*2) ) # gets the row of the i,j in the goal state
+                                c = third[ (exp.state[i][j] % len(exp.state[0])) ]                              # gets the column of the i,j in the goal state
                                 # take the difference between the goal and current positions, that is the distance, similar to distance formula from math class!
                                 manhattan_d += ( abs(r-i) + abs(c-j) )
-
-                    exp.score = manhattan_d
+                    # score is already assigned to depth
+                    # score = f(n) = g(n) + h(n)
+                    # g(n) is the _cost to_ aka the depth
+                    # h(n) is the heuristic score, aka the manhattan or misplaced
+                    # so we just add h(n) to g(n) and be done!
+                    exp.score += manhattan_d
                     to_ret.append(exp)
                     self.seen.append(exp.state)
 
             # sort list of nodes by score
+            # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
             to_ret.sort(key=lambda x: x.score)
             for i in to_ret:
                 nodes.append(i)
             # nodes.sort(key=lambda x: x.score)
+            print("Best node with g(n)=", nodes[0].depth, "and h(n)=",nodes[0].score - nodes[0].depth)
+            nodes[0].print()
 
-            # return self.rem_dups(nodes)
             return nodes
 
     def print_algo(self):
@@ -219,25 +212,22 @@ class Problem:
 def generic(problem: Problem, algo_choice=2):
     if problem.init_state.state == problem.goal_state.state:
         return "Hey! The initial state is already solved!"
-    # nodes = problem.make_queue(problem.make_node) 28904.824   28879.22945
+
     nodes = [problem.init_state]
-    tick = 0
     start = time.time()
     max_num_nodes = -1
     while True:
         if len(nodes) == 0:
             return "No Solution :("
 
-        # print("number of nodes in the queue:",len(nodes))
         max_num_nodes = max( [ len(nodes),max_num_nodes ] )
         curr_node = nodes[0]
         nodes = nodes[1:]
-        tick += 1
-        # problem.seen.append(curr_node.state)
+        problem.seen.append(curr_node.state)
 
-        #print("Current Depth:",curr_node.depth)
-        #print("Looking at")
-        #curr_node.print()
+        # print("Current Depth:",curr_node.depth)
+        # print("Looking at")
+        # curr_node.print()
 
         if curr_node.state == problem.goal_state.state:
             end = time.time()
@@ -249,17 +239,12 @@ def generic(problem: Problem, algo_choice=2):
             print("Seconds elapsed WITHOUT printing:", end-start)
             return curr_node.state
 
-        # if tick == 500000:
-        #     print("Tick count of",tick,"exceeded!")
-        #     return "took too long"
-
-        if curr_node.depth > 100:
+        # if we have been runnning for 90 minutes and did not find a solution, quit
+        if time.time() - start > 5400:
             print("depth of",curr_node.depth,"and no solution, quitting")
             print("Total number of expanded nodes:", problem.num_exp)
-            # print("Total number of seen nodes:",len(problem.seen))
-            # print("Queue",problem.seen)
-            # print("Seconds elapsed WITHOUT printing:", end-start)
-            return "too far down without a solution"
+            print("Total number of seen nodes:",len(problem.seen))
+            return "took too long"
 
         nodes = problem.queueing_function(nodes, problem.expand(curr_node,curr_node.operators))
     return "No solution"

@@ -1,7 +1,14 @@
 '''
 NOTE
 Please run this python script like the following
-`python3 tester.py 1>depthtrace.txt`
+`python3 tester.py 1>trace_upto20_desktop.txt`
+in order to save the traces
+with silver search installed, run
+`ag "at depth" -B 1 -A 6 trace_upto20_desktop.txt`
+to print out 1 line before and 6 lines after the match of "at depth"
+In one command:
+python3 tester.py 1>trace_upto20_desktop.txt && ag "at depth" -B 1 -A 6 trace_upto20_desktop.txt
+
 NOTE 2:
 1 == uniform
 2 == misplaced
@@ -13,21 +20,19 @@ we can then look at the results later
 '''
 # =================================================
 from newgeneric import *
-import time
 problems = [
-    [[1,2,3],[4,5,6],[7,8,0]], # depth 0; 
-    [[1,2,3],[4,5,6],[0,7,8]], # depth 2; 
-    [[1,2,3],[5,0,6],[4,7,8]], # depth 4; 
-    [[1,3,6],[5,0,2],[4,7,8]], # depth 8;
-    [[1,3,6],[5,0,7],[4,8,2]], # depth 12; 
-    [[1,6,7],[5,0,3],[4,8,2]], # depth 16; 
-    # [[7,1,2],[4,8,5],[6,3,0]], # depth 20; manhattan times out after this one
-    # [[0,7,2],[4,6,1],[3,5,8]], # depth 24; misplaced gets stuck here
+    [[1,2,3],[4,5,6],[7,8,0]], # depth 0
+    [[1,2,3],[4,5,6],[0,7,8]], # depth 2
+    [[1,2,3],[5,0,6],[4,7,8]], # depth 4
+    [[1,3,6],[5,0,2],[4,7,8]], # depth 8
+    [[1,3,6],[5,0,7],[4,8,2]], # depth 12
+    [[1,6,7],[5,0,3],[4,8,2]], # depth 16
+    [[7,1,2],[4,8,5],[6,3,0]], # depth 20
+    # [[0,7,2],[4,6,1],[3,5,8]], # depth 24
     # [[8,6,7],[2,5,4],[3,0,1]], # depth 31
     # [[6,4,7],[8,5,0],[3,2,1]], # depth 31
 ]
 algo_choice = [1,2,3]
-# algo_choice = [1]
 
 for p in problems:
     print("=================================================")
@@ -37,5 +42,4 @@ for p in problems:
         print("Original state",p)
         print("END")
         print()
-        #time.sleep(2)
     print("=================================================")

@@ -63,14 +63,15 @@ def main():
         problem.append(row_3)
     elif puzzle_type == 1:
         # arr = [[4,1,3],[7,0,6],[8,5,2]] 
-        arr = [[7,1,2],[4,8,5],[6,3,0]] # depth 20 ; given from prof
+        # arr = [[7,1,2],[4,8,5],[6,3,0]] # depth 20 ; given from prof
+        arr = [[1,6,7],[5,0,3],[4,8,2]] # depth 16 ; given from prof
         print(arr[0])
         print(arr[1])
         print(arr[2])
         problem = arr
     else:
         print("That was not understood, sorry")
-    
+
     print("\nEnter your choice of algorithm:")
     print("\t1. Uniform Cost Search")
     print("\t2. A* with the Misplaced Tile Heuristic")
