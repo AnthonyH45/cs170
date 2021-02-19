@@ -42,7 +42,7 @@ class Node:
     # we need an immutable type for hashing in a set
     # so we return a serialized state as a tuple
     def __hash__(self):
-        return hash( 
+        return hash(
                     (self.state[0][0],self.state[0][1],self.state[0][2],
                      self.state[1][0],self.state[1][1],self.state[1][2],
                      self.state[2][0],self.state[2][1],self.state[2][2])
@@ -98,7 +98,7 @@ class Problem:
                     # else:
                     #     # to_add_node.print()
                     #     to_ret.append(to_add_node)
-                    #     self.exp_set.add(to_add_node)
+                    self.exp_set.add(to_add_node)
                     to_ret.append(to_add_node)
 
         if len(to_ret) == 0:
@@ -115,9 +115,10 @@ class Problem:
             # expansions to the nodes and return
             for i in expansions:
                 if i not in self.seen_set:
+                # if True:
                     nodes.append(i)
                     self.seen_set.add(i)
-                
+
             print("Best node with g(n)=", nodes[0].depth, "and h(n)=",nodes[0].score - nodes[0].depth)
             nodes[0].print()
             return nodes
@@ -128,6 +129,7 @@ class Problem:
             to_ret = []
             for exp in expansions:
                 if exp not in self.seen_set: # if we have not seen this node, lets look at it
+                # if True:
                     if exp.state == self.goal_state.state:
                         print("Found goal state in queueing, returning!")
                         return [exp]
@@ -151,11 +153,12 @@ class Problem:
             # sort expansions by misplaced tiles, smallest first
             # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
             to_ret.sort(key=lambda x: x.score)
+
             for i in to_ret:
                 nodes.append(i)
             print("Best node with g(n)=", nodes[0].depth, "and h(n)=",nodes[0].score - nodes[0].depth)
             nodes[0].print()
-            
+
             return nodes
 
         if self.algo_choice == 3:
@@ -243,7 +246,7 @@ def generic(problem: Problem, algo_choice=2):
             end = time.time()
             problem.print_algo()
             print("Found solution at depth", curr_node.depth)
-            print("Total number of expanded nodes:", len(problem.exp_set))#problem.num_exp)
+            print("Total number of expanded nodes:", problem.num_exp) #len(problem.exp_set))#problem.num_exp)
             print("Total number of seen nodes:",len(problem.seen_set))
             print("Largest queue size:",max_num_nodes)
             print("Seconds elapsed WITHOUT printing:", end-start)
