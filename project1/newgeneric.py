@@ -98,6 +98,7 @@ class Problem:
                     # else:
                     #     # to_add_node.print()
                     #     to_ret.append(to_add_node)
+                    #     self.exp_set.add(to_add_node)
                     self.exp_set.add(to_add_node)
                     to_ret.append(to_add_node)
 
