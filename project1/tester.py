@@ -1,13 +1,13 @@
 '''
 NOTE
 Please run this python script like the following
-`python3 tester.py 1>trace_upto20_desktop.txt`
+`python3 tester.py 1>traces.txt`
 in order to save the traces
 with silver search installed, run
-`ag "at depth" -B 1 -A 6 trace_upto20_desktop.txt`
+`ag "at depth" -B 1 -A 7 traces.txt`
 to print out 1 line before and 6 lines after the match of "at depth"
 In one command:
-python3 tester.py 1>all_traces_desktop_dupsInExpand.txt && ag "at depth" -B 1 -A 6 all_traces_desktop_dupsInExpand.txt > all_solves_dupsInExpand.txt
+python3 tester.py 1>traces.txt && ag "at depth" -B 1 -A 6 traces.txt > ag_traces.txt
 
 NOTE 2:
 1 == uniform
@@ -22,7 +22,7 @@ we can then look at the results later
 from newgeneric import *
 import time
 # list of tuples with ( depth, problem )
-# all problems were given from prof
+# all problems were given from prof, i do not claim credit for thinking of them
 problems = [
     (0, [[1,2,3],[4,5,6],[7,8,0]]), # depth 0
     (2, [[1,2,3],[4,5,6],[0,7,8]]), # depth 2

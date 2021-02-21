@@ -12,7 +12,7 @@ from newgeneric import *
 def main():
     print("Welcome to Anthony Hallak's 8-puzzle solver!\n")
     try:
-        puzzle_type = int(input("Type \"1\" to use a default puzzle or \"2\" to enter your own or \"3\" for a random puzzle!\n"))
+        puzzle_type = int(input("Type \"1\" to use a default puzzle or \"2\" to enter your own or \"3\" for a random puzzle (not recommended since we might have an unsolvable case)!\n"))
     except:
         print("Sorry, we could not understand that :(")
         return 1
