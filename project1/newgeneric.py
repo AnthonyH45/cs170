@@ -85,7 +85,7 @@ class Problem:
         to_ret = []
         pos_0 = node.find_blank()
         # add the passed in node to our seen_set, so we do not visit again later
-        self.exp_set.add(node)
+        self.seen_set.add(node)
         for i in operators:
             if (pos_0[0]+i[0]) > -1 and (pos_0[0]+i[0]) < 3:
                 if (pos_0[1]+i[1]) > -1 and (pos_0[1]+i[1]) < 3:
@@ -115,7 +115,7 @@ class Problem:
 
     def queueing_function(self, nodes: List[Node], expansions: List[Node]):
         if self.algo_choice == 1:
-            print("Using Uniform Cost Search")
+            # print("Using Uniform Cost Search")
             # since everything costs the same, we just add the 
             # expansions to the nodes and return
             for i in expansions:
@@ -126,7 +126,7 @@ class Problem:
             return nodes
 
         if self.algo_choice == 2:
-            print("Using A* with misplaced tile heuristic")
+            # print("Using A* with misplaced tile heuristic")
 
             to_ret = []
             for exp in expansions:
@@ -152,19 +152,19 @@ class Problem:
             # sort expansions by misplaced tiles, smallest first
             # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
             # if we do NOT want to break ties, uncomment the following line and comment line 203
-            # to_ret.sort(key=lambda x: x.score)
+            to_ret.sort(key=lambda x: x.score)
             for i in to_ret:
                 nodes.append(i)
             # to BREAK ties, uncomment the following line
             # source used: https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
-            nodes.sort(key=lambda x: (x.score, x.depth))
+            # nodes.sort(key=lambda x: (x.score, x.depth))
             print("Best node with g(n)=", nodes[0].depth, "and h(n)=",nodes[0].score - nodes[0].depth)
             nodes[0].print()
 
             return nodes
 
         if self.algo_choice == 3:
-            print("Using A* with manhattan distance heuristic")
+            # print("Using A* with manhattan distance heuristic")
 
             to_ret = []
             third = [2,0,1] # needed for mapping elemnts to their goal state positions
@@ -185,8 +185,8 @@ class Problem:
                         # this took a while to figure out, but it maps numbers [1,8] to their respective position in the goal state!
                         if exp.state[i][j] != 0:
                             # len(exp.state[0]) == 3 for 8 puzzle
-                            r = ((exp.state[i][j] - 1)// len(exp.state[0]))                                 # gets the row of the i,j in the goal state
-                            c = third[ (exp.state[i][j] % len(exp.state[0])) ]                              # gets the column of the i,j in the goal state
+                            r = ((exp.state[i][j] - 1)// len(exp.state[0]))      # gets the row of the i,j in the goal state
+                            c = third[ (exp.state[i][j] % len(exp.state[0])) ]   # gets the column of the i,j in the goal state
                             # take the difference between the goal and current positions, that is the distance, similar to distance formula from math class!
                             manhattan_d += ( abs(r-i) + abs(c-j) )
                 # score is already assigned to depth
@@ -199,15 +199,15 @@ class Problem:
 
             # sort list of nodes by score
             # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
-            # if we do NOT want to break ties, uncomment the following line and comment line 203
-            # to_ret.sort(key=lambda x: x.score)
+            # if we do NOT want to break ties, uncomment line 203 and comment line 210
+            to_ret.sort(key=lambda x: x.score)
             for i in to_ret:
                 nodes.append(i)
-            # to BREAK ties, uncomment the following line
+            # to BREAK ties, uncomment line 210 and comment line 203
             # source used: https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
             # sort by a tuple of (f(n), g(n)), if we have a tie for heuristic, 
-            # we want to break it by picking the smaller depth 
-            nodes.sort(key=lambda x: (x.score, x.depth))
+            # we want to break it by picking the smaller depth
+            # nodes.sort(key=lambda x: (x.score, x.depth))
 
             print("Best node with g(n)=", nodes[0].depth, "and h(n)=",nodes[0].score - nodes[0].depth)
             nodes[0].print()

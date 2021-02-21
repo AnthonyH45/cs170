@@ -1,0 +1,239 @@
+61-Used Uniform Cost Search
+62:Found solution at depth 2
+63-Total number of expanded nodes (total number of unique child nodes): 13
+64-Total times nodes expanded (same as expand() calls): 6
+65-Total number of seen nodes (same as visited): 7
+66-Largest queue size: 8
+67-Seconds elapsed WITHOUT printing: 0.00021505355834960938
+68-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+69-Original state [[1, 2, 3], [4, 5, 6], [0, 7, 8]]
+--
+82-Used A* with Misplaced Tiles as the heuristic
+83:Found solution at depth 2
+84-Total number of expanded nodes (total number of unique child nodes): 4
+85-Total times nodes expanded (same as expand() calls): 2
+86-Total number of seen nodes (same as visited): 3
+87-Largest queue size: 2
+88-Seconds elapsed WITHOUT printing: 9.250640869140625e-05
+89-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+90-Original state [[1, 2, 3], [4, 5, 6], [0, 7, 8]]
+--
+103-Used A* with Manhattan Distance as the heuristic
+104:Found solution at depth 2
+105-Total number of expanded nodes (total number of unique child nodes): 4
+106-Total times nodes expanded (same as expand() calls): 2
+107-Total number of seen nodes (same as visited): 3
+108-Largest queue size: 2
+109-Seconds elapsed WITHOUT printing: 8.678436279296875e-05
+110-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+111-Original state [[1, 2, 3], [4, 5, 6], [0, 7, 8]]
+--
+312-Used Uniform Cost Search
+313:Found solution at depth 4
+314-Total number of expanded nodes (total number of unique child nodes): 51
+315-Total times nodes expanded (same as expand() calls): 28
+316-Total number of seen nodes (same as visited): 29
+317-Largest queue size: 24
+318-Seconds elapsed WITHOUT printing: 0.0007417201995849609
+319-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+320-Original state [[1, 2, 3], [5, 0, 6], [4, 7, 8]]
+--
+347-Used A* with Misplaced Tiles as the heuristic
+348:Found solution at depth 4
+349-Total number of expanded nodes (total number of unique child nodes): 9
+350-Total times nodes expanded (same as expand() calls): 4
+351-Total number of seen nodes (same as visited): 5
+352-Largest queue size: 5
+353-Seconds elapsed WITHOUT printing: 0.000217437744140625
+354-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+355-Original state [[1, 2, 3], [5, 0, 6], [4, 7, 8]]
+--
+382-Used A* with Manhattan Distance as the heuristic
+383:Found solution at depth 4
+384-Total number of expanded nodes (total number of unique child nodes): 9
+385-Total times nodes expanded (same as expand() calls): 4
+386-Total number of seen nodes (same as visited): 5
+387-Largest queue size: 5
+388-Seconds elapsed WITHOUT printing: 0.00024271011352539062
+389-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+390-Original state [[1, 2, 3], [5, 0, 6], [4, 7, 8]]
+--
+2631-Used Uniform Cost Search
+2632:Found solution at depth 8
+2633-Total number of expanded nodes (total number of unique child nodes): 503
+2634-Total times nodes expanded (same as expand() calls): 315
+2635-Total number of seen nodes (same as visited): 316
+2636-Largest queue size: 189
+2637-Seconds elapsed WITHOUT printing: 0.011289596557617188
+2638-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+2639-Original state [[1, 3, 6], [5, 0, 2], [4, 7, 8]]
+--
+2764-Used A* with Misplaced Tiles as the heuristic
+2765:Found solution at depth 8
+2766-Total number of expanded nodes (total number of unique child nodes): 33
+2767-Total times nodes expanded (same as expand() calls): 18
+2768-Total number of seen nodes (same as visited): 19
+2769-Largest queue size: 15
+2770-Seconds elapsed WITHOUT printing: 0.0008957386016845703
+2771-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+2772-Original state [[1, 3, 6], [5, 0, 2], [4, 7, 8]]
+--
+2855-Used A* with Manhattan Distance as the heuristic
+2856:Found solution at depth 8
+2857-Total number of expanded nodes (total number of unique child nodes): 23
+2858-Total times nodes expanded (same as expand() calls): 12
+2859-Total number of seen nodes (same as visited): 13
+2860-Largest queue size: 11
+2861-Seconds elapsed WITHOUT printing: 0.00041031837463378906
+2862-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+2863-Original state [[1, 3, 6], [5, 0, 2], [4, 7, 8]]
+--
+19471-Used Uniform Cost Search
+19472:Found solution at depth 12
+19473-Total number of expanded nodes (total number of unique child nodes): 3610
+19474-Total times nodes expanded (same as expand() calls): 2332
+19475-Total number of seen nodes (same as visited): 2333
+19476-Largest queue size: 1279
+19477-Seconds elapsed WITHOUT printing: 0.08062267303466797
+19478-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+19479-Original state [[1, 3, 6], [5, 0, 7], [4, 8, 2]]
+--
+20319-Used A* with Misplaced Tiles as the heuristic
+20320:Found solution at depth 12
+20321-Total number of expanded nodes (total number of unique child nodes): 202
+20322-Total times nodes expanded (same as expand() calls): 119
+20323-Total number of seen nodes (same as visited): 120
+20324-Largest queue size: 83
+20325-Seconds elapsed WITHOUT printing: 0.006691455841064453
+20326-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+20327-Original state [[1, 3, 6], [5, 0, 7], [4, 8, 2]]
+--
+20578-Used A* with Manhattan Distance as the heuristic
+20579:Found solution at depth 12
+20580-Total number of expanded nodes (total number of unique child nodes): 63
+20581-Total times nodes expanded (same as expand() calls): 36
+20582-Total number of seen nodes (same as visited): 37
+20583-Largest queue size: 27
+20584-Seconds elapsed WITHOUT printing: 0.001430511474609375
+20585-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+20586-Original state [[1, 3, 6], [5, 0, 7], [4, 8, 2]]
+--
+121077-Used Uniform Cost Search
+121078:Found solution at depth 16
+121079-Total number of expanded nodes (total number of unique child nodes): 20603
+121080-Total times nodes expanded (same as expand() calls): 13974
+121081-Total number of seen nodes (same as visited): 13975
+121082-Largest queue size: 6630
+121083-Seconds elapsed WITHOUT printing: 0.6850597858428955
+121084-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+121085-Original state [[1, 6, 7], [5, 0, 3], [4, 8, 2]]
+--
+125802-Used A* with Misplaced Tiles as the heuristic
+125803:Found solution at depth 16
+125804-Total number of expanded nodes (total number of unique child nodes): 1078
+125805-Total times nodes expanded (same as expand() calls): 665
+125806-Total number of seen nodes (same as visited): 666
+125807-Largest queue size: 413
+125808-Seconds elapsed WITHOUT printing: 0.062201499938964844
+125809-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+125810-Original state [[1, 6, 7], [5, 0, 3], [4, 8, 2]]
+--
+126478-Used A* with Manhattan Distance as the heuristic
+126479:Found solution at depth 16
+126480-Total number of expanded nodes (total number of unique child nodes): 157
+126481-Total times nodes expanded (same as expand() calls): 95
+126482-Total number of seen nodes (same as visited): 96
+126483-Largest queue size: 62
+126484-Seconds elapsed WITHOUT printing: 0.00425410270690918
+126485-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+126486-Original state [[1, 6, 7], [5, 0, 3], [4, 8, 2]]
+--
+528004-Used Uniform Cost Search
+528005:Found solution at depth 20
+528006-Total number of expanded nodes (total number of unique child nodes): 71792
+528007-Total times nodes expanded (same as expand() calls): 54678
+528008-Total number of seen nodes (same as visited): 54679
+528009-Largest queue size: 17286
+528010-Seconds elapsed WITHOUT printing: 5.568055629730225
+528011-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+528012-Original state [[7, 1, 2], [4, 8, 5], [6, 3, 0]]
+--
+550434-Used A* with Misplaced Tiles as the heuristic
+550435:Found solution at depth 20
+550436-Total number of expanded nodes (total number of unique child nodes): 4975
+550437-Total times nodes expanded (same as expand() calls): 3145
+550438-Total number of seen nodes (same as visited): 3146
+550439-Largest queue size: 1832
+550440-Seconds elapsed WITHOUT printing: 0.6150107383728027
+550441-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+550442-Original state [[7, 1, 2], [4, 8, 5], [6, 3, 0]]
+--
+554007-Used A* with Manhattan Distance as the heuristic
+554008:Found solution at depth 20
+554009-Total number of expanded nodes (total number of unique child nodes): 806
+554010-Total times nodes expanded (same as expand() calls): 502
+554011-Total number of seen nodes (same as visited): 503
+554012-Largest queue size: 306
+554013-Seconds elapsed WITHOUT printing: 0.03695845603942871
+554014-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+554015-Original state [[7, 1, 2], [4, 8, 5], [6, 3, 0]]
+--
+1554216-Used Uniform Cost Search
+1554217:Found solution at depth 24
+1554218-Total number of expanded nodes (total number of unique child nodes): 151327
+1554219-Total times nodes expanded (same as expand() calls): 132744
+1554220-Total number of seen nodes (same as visited): 132745
+1554221-Largest queue size: 24049
+1554222-Seconds elapsed WITHOUT printing: 19.008363962173462
+1554223-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+1554224-Original state [[0, 7, 2], [4, 6, 1], [3, 5, 8]]
+--
+1682329-Used A* with Misplaced Tiles as the heuristic
+1682330:Found solution at depth 24
+1682331-Total number of expanded nodes (total number of unique child nodes): 26484
+1682332-Total times nodes expanded (same as expand() calls): 17768
+1682333-Total number of seen nodes (same as visited): 17769
+1682334-Largest queue size: 8716
+1682335-Seconds elapsed WITHOUT printing: 25.204763650894165
+1682336-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+1682337-Original state [[0, 7, 2], [4, 6, 1], [3, 5, 8]]
+--
+1694841-Used A* with Manhattan Distance as the heuristic
+1694842:Found solution at depth 24
+1694843-Total number of expanded nodes (total number of unique child nodes): 2723
+1694844-Total times nodes expanded (same as expand() calls): 1757
+1694845-Total number of seen nodes (same as visited): 1758
+1694846-Largest queue size: 966
+1694847-Seconds elapsed WITHOUT printing: 0.25128912925720215
+1694848-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+1694849-Original state [[0, 7, 2], [4, 6, 1], [3, 5, 8]]
+--
+3085880-Used Uniform Cost Search
+3085881:Found solution at depth 31
+3085882-Total number of expanded nodes (total number of unique child nodes): 181439
+3085883-Total times nodes expanded (same as expand() calls): 181438
+3085884-Total number of seen nodes (same as visited): 181439
+3085885-Largest queue size: 25134
+3085886-Seconds elapsed WITHOUT printing: 21.61402726173401
+3085887-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+3085888-Original state [[8, 6, 7], [2, 5, 4], [3, 0, 1]]
+--
+4172166-Used A* with Misplaced Tiles as the heuristic
+4172167:Found solution at depth 31
+4172168-Total number of expanded nodes (total number of unique child nodes): 161877
+4172169-Total times nodes expanded (same as expand() calls): 143847
+4172170-Total number of seen nodes (same as visited): 143848
+4172171-Largest queue size: 24994
+4172172-Seconds elapsed WITHOUT printing: 984.332115650177
+4172173-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+4172174-Original state [[8, 6, 7], [2, 5, 4], [3, 0, 1]]
+--
+4325226-Used A* with Manhattan Distance as the heuristic
+4325227:Found solution at depth 31
+4325228-Total number of expanded nodes (total number of unique child nodes): 30046
+4325229-Total times nodes expanded (same as expand() calls): 21196
+4325230-Total number of seen nodes (same as visited): 21197
+4325231-Largest queue size: 8862
+4325232-Seconds elapsed WITHOUT printing: 30.852093935012817
+4325233-Solution? [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+4325234-Original state [[8, 6, 7], [2, 5, 4], [3, 0, 1]]
