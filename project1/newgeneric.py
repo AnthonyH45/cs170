@@ -152,12 +152,12 @@ class Problem:
             # sort expansions by misplaced tiles, smallest first
             # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
             # if we do NOT want to break ties, uncomment the following line and comment line 203
-            to_ret.sort(key=lambda x: x.score)
+            # to_ret.sort(key=lambda x: x.score)
             for i in to_ret:
                 nodes.append(i)
             # to BREAK ties, uncomment the following line
             # source used: https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
-            # nodes.sort(key=lambda x: (x.score, x.depth))
+            nodes.sort(key=lambda x: (x.score, x.depth))
             print("Best node with g(n)=", nodes[0].depth, "and h(n)=",nodes[0].score - nodes[0].depth)
             nodes[0].print()
 
@@ -200,14 +200,14 @@ class Problem:
             # sort list of nodes by score
             # used this https://stackoverflow.com/questions/403421/how-to-sort-a-list-of-objects-based-on-an-attribute-of-the-objects
             # if we do NOT want to break ties, uncomment line 203 and comment line 210
-            to_ret.sort(key=lambda x: x.score)
+            # to_ret.sort(key=lambda x: x.score)
             for i in to_ret:
                 nodes.append(i)
             # to BREAK ties, uncomment line 210 and comment line 203
             # source used: https://stackoverflow.com/questions/4233476/sort-a-list-by-multiple-attributes
             # sort by a tuple of (f(n), g(n)), if we have a tie for heuristic, 
             # we want to break it by picking the smaller depth
-            # nodes.sort(key=lambda x: (x.score, x.depth))
+            nodes.sort(key=lambda x: (x.score, x.depth))
 
             print("Best node with g(n)=", nodes[0].depth, "and h(n)=",nodes[0].score - nodes[0].depth)
             nodes[0].print()
