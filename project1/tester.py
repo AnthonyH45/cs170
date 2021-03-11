@@ -32,7 +32,7 @@ problems = [
     (20, [[7,1,2],[4,8,5],[6,3,0]]), # depth 20
     (24, [[0,7,2],[4,6,1],[3,5,8]]), # depth 24
     (31, [[8,6,7],[2,5,4],[3,0,1]]), # depth 31
-    (31, [[6,4,7],[8,5,0],[3,2,1]]), # depth 31
+    # (31, [[6,4,7],[8,5,0],[3,2,1]]), # depth 31
 ]
 algo_choice = [1,2,3]
 
@@ -40,7 +40,7 @@ for p in problems:
     print("=================================================")
     for a in algo_choice:
         print("START")
-        print("Solution?",generic(Problem(p[1],8,0,a)))
+        print("Solution?",generic(Problem(p[1],8,0,3)))
         print("Original state",p[1])
         print("END")
         print()
