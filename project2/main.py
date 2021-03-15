@@ -6,19 +6,19 @@ from typing import *
 # https://stackoverflow.com/questions/4362586/sum-a-list-of-numbers-in-python
 # takes in data, curr_features, feat_to_add is the column of the feature to add
 def validate(data: List[List[float]], curr_feature: set(), curr_class, feat_to_add) -> float:
-    num_correct = 0
     instances = [i[0] for i in data].count(curr_class)
+    num_correct = 0
+    i_loop = 0
+    k_loop = 0
 
     for i,j in enumerate(data):
+        i_loop += 1
         # print("finding nn for",j)
-        # time.sleep(1)
-        # obj_to_class = j[1:]
-        # obj_to_class_class = j[0]
-
         nn_dist = float('INF')
         nn_loc = float('INF')
         nn_class = 0
         for k,l in enumerate(data):
+            k_loop += 1
             if i != k:
                 # print("Asking if",l)
                 # only use the features in curr_feature and feat_to_add
@@ -26,20 +26,35 @@ def validate(data: List[List[float]], curr_feature: set(), curr_class, feat_to_a
                 # print(to)
                 nn = [n for m,n in enumerate(l) if m in curr_feature or m == feat_to_add]
                 # print(nn)
+                # print([(a,b) for (a,b) in zip(to,nn)])
                 dist = math.sqrt(sum([(a-b)**2 for (a,b) in zip(to,nn)]))
                 # print(dist)
+                # time.sleep(5)
                 if dist < nn_dist:
                     nn_dist = dist
                     nn_loc = k
                     nn_class = l[0]
-                # time.sleep(15)
 
         if nn_class == j[0]:
-            num_correct = num_correct + 1
+            num_correct += 1
+            if num_correct > instances:
+                print("WHY!!! num_correct > instances???!!!!!")
+                print("num_correct",num_correct)
+                print("instances",instances)
+                print("nn_dist",nn_dist)
+                print("nn_loc",nn_loc)
+                print("nn",data[nn_loc])
+                print("nn_class",nn_class)
+                print("i_loop",i_loop)
+                print("k_loop",k_loop)
+                print("i",i)
+                print("j",j)
+                print("curr_feature",curr_feature)
+                print("feat_to_add",feat_to_add)
+                return -1
 
     acc = num_correct / instances
     print("num correct / num instances = acc |",num_correct,"/",instances,"=",acc)
-    # time.sleep(10)
     return acc
 
 def fs(data: List[List[float]]):
@@ -60,6 +75,8 @@ def fs(data: List[List[float]]):
                 # time.sleep(0.5)
                 # check the accuracy of the kth feature with our current feature list
                 current_accuracy = validate(data,curr_features,j_class, k)
+                if current_accuracy < 0:
+                    return -1000000000
 
                 if best_accuracy < current_accuracy:
                     best_accuracy = current_accuracy
@@ -68,7 +85,7 @@ def fs(data: List[List[float]]):
         curr_features.add(best_feat)
         print("On level",i+1,"we add feature",best_feat)
         print("Current features:",curr_features)
-        time.sleep(20)
+        # time.sleep(10)
 
 # https://stackoverflow.com/questions/6492096/automatically-process-numbers-in-e-scientific-notation-in-python
 # https://stackoverflow.com/questions/44461551/how-to-print-map-object-with-python-3
