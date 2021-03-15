@@ -6,62 +6,69 @@ from typing import *
 # https://stackoverflow.com/questions/4362586/sum-a-list-of-numbers-in-python
 # takes in data, curr_features, feat_to_add is the column of the feature to add
 def validate(data: List[List[float]], curr_feature: set(), curr_class, feat_to_add) -> float:
-    num_correct: int = 0
+    num_correct = 0
     instances = [i[0] for i in data].count(curr_class)
 
     for i,j in enumerate(data):
-        to_classify = j[1:]
-        to_classify_class = j[0]
+        # print("finding nn for",j)
+        # time.sleep(1)
+        # obj_to_class = j[1:]
+        # obj_to_class_class = j[0]
 
         nn_dist = float('INF')
         nn_loc = float('INF')
         nn_class = 0
         for k,l in enumerate(data):
-            nn = l[1:]
             if i != k:
-                # only use 
-                dist = math.sqrt(sum( [(a-b)**2 for (a,b) in zip(to_classify,nn) ] ))
+                # print("Asking if",l)
+                # only use the features in curr_feature and feat_to_add
+                to = [n for m,n in enumerate(j) if m in curr_feature or m == feat_to_add]
+                # print(to)
+                nn = [n for m,n in enumerate(l) if m in curr_feature or m == feat_to_add]
+                # print(nn)
+                dist = math.sqrt(sum([(a-b)**2 for (a,b) in zip(to,nn)]))
+                # print(dist)
                 if dist < nn_dist:
                     nn_dist = dist
                     nn_loc = k
                     nn_class = l[0]
+                # time.sleep(15)
 
-        # print("Obj",i+1,"is class",j[0],"nn is",nn_loc+1,"which is in class",nn_class, "dist was",nn_dist)
-        if nn_class == to_classify_class:
+        if nn_class == j[0]:
             num_correct = num_correct + 1
 
     acc = num_correct / instances
     print("num correct / num instances = acc |",num_correct,"/",instances,"=",acc)
-    time.sleep(1)
-    return 0.0
+    # time.sleep(10)
+    return acc
 
 def fs(data: List[List[float]]):
     # start empty and add highest accuracy feature at each level
-    curr_feature = set() 
+    curr_features = set() 
     for i,j in enumerate(data):
         print("On level:",i+1)
-        time.sleep(0.5)
+        # time.sleep(0.5)
         best_accuracy: float = 0
         best_feat: int = 0
 
         # out of C features, find the highest accuracy
         j_class = j[0]
-        for k in range(1,len(j[1:])): # j[1:] to ignore first column (label/class)
+        for k in range(1,len(j)): # start at 1 to ignore first column (label/class)
             # if we have not seen this feature
-            if k not in curr_feature:
+            if k not in curr_features:
                 print("--Considering adding the",k,"feature")
-                time.sleep(0.5)
+                # time.sleep(0.5)
                 # check the accuracy of the kth feature with our current feature list
-                current_accuracy = validate(data,curr_feature,j_class, k)
-                current_accuracy = 1
+                current_accuracy = validate(data,curr_features,j_class, k)
 
                 if best_accuracy < current_accuracy:
                     best_accuracy = current_accuracy
                     best_feat = k
 
-        curr_feature.add(best_feat)
+        curr_features.add(best_feat)
         print("On level",i+1,"we add feature",best_feat)
-        time.sleep(1)
+        print("Current features:",curr_features)
+        time.sleep(20)
 
 # https://stackoverflow.com/questions/6492096/automatically-process-numbers-in-e-scientific-notation-in-python
 # https://stackoverflow.com/questions/44461551/how-to-print-map-object-with-python-3
