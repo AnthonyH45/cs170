@@ -5,49 +5,60 @@ from typing import *
 
 # https://stackoverflow.com/questions/4362586/sum-a-list-of-numbers-in-python
 # takes in data, j (current row), (r,c) location of j in data
-def validate(data: List[List[float]], curr: List[float], r: int): #, c: int):
-    num_correct = 0
-    nns = []
+def validate(data: List[List[float]], curr: List[float], r: int, c: int) -> float:
+    num_correct: int = 0
+    nns: List[List[float]] = []
+
     for i,j in enumerate(data):
-        # print("finding nn for",j)
+        # print("finding nn for",curr[0],r,c)
         nn_dist = float('INF')
         nn_loc = float('INF')
         nn_class = float(0)
+
         if i != r:
             dist = math.sqrt(sum([(a-b)**2 for (a,b) in zip(j[1:],curr)]))
             if dist < nn_dist:
                 nn_dist = dist
                 nn_loc = i
                 nn_class = j[0]
+                # print("Found nn: (dist loc class):(",nn_dist,nn_loc,nn_class,")")
                 nns.append(j)
 
-    time.sleep(1)
-    print(nns)
-    time.sleep(1)
     for n in nns:
+        print(n[0],curr[0],n[0] == curr[0])
         if n[0] == curr[0]:
             num_correct += 1
 
-    acc = (num_correct / len(data))
-    print("Accuracy:",acc)
+    acc = (float(num_correct) / len(data))
+    print(num_correct,len(data),acc)
+    # print("Accuracy:",acc)
+    time.sleep(0.5)
     return acc
-    
 
 def fs(data: List[List[float]]):
-    # set of tuples (category, feature)
-    to_add_level = set() 
+    # set of tuples (level, feature)
+    # start empty and add highest accuracy feature at each level
+    add_feature = set() 
     for i,j in enumerate(data):
-        print("On level:",i)
-        best_accuracy = 0
+        # print("On level:",i+1)
+        best_accuracy: float = 0
+        best_feat: int = 0
+
+        # out of C features, find the highest accuracy
         for k in range(1,len(j)):
-            if (i,k) not in to_add_level:
-                print("--Considering adding the",k,"feature")
-                current_accuracy = validate(data,j[1:], i) #, k)
-                time.sleep(1)
-                print("val:",j)
+
+            # if we have not seen this feature
+            if k not in add_feature:
+                # print("--Considering adding the",k,"feature")
+                current_accuracy = validate(data,j, i, k)
+
                 if best_accuracy < current_accuracy:
                     best_accuracy = current_accuracy
-                    to_add_level.add((i,k))
+                    best_feat = k
+
+        add_feature.add(best_feat)
+        print("On level",i+1,"we add feature",best_feat)
+        time.sleep(1)
 
 # https://stackoverflow.com/questions/6492096/automatically-process-numbers-in-e-scientific-notation-in-python
 # https://stackoverflow.com/questions/44461551/how-to-print-map-object-with-python-3
@@ -68,7 +79,7 @@ def main():
     filename = str(input("Type in the name of the file to test: "))
     try:
         parsed_data = parse(open(filename))
-        # parsed_data is 500 rows by 101 columns (100 features excluding 1st column for label)
+        # parsed_data is R rows by C columns (C-1 features excluding 1st column for label)
     except:
         print("Sorry, could not open that filename, please make sure it exists in this directory, you have sufficient permissions, and  exiting")
         return
