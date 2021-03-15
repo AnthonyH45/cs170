@@ -4,59 +4,62 @@ import time
 from typing import *
 
 # https://stackoverflow.com/questions/4362586/sum-a-list-of-numbers-in-python
-# takes in data, j (current row), (r,c) location of j in data
-def validate(data: List[List[float]], curr: List[float], r: int, c: int) -> float:
+# takes in data, curr_features, feat_to_add is the column of the feature to add
+def validate(data: List[List[float]], curr_feature: set(), curr_class, feat_to_add) -> float:
     num_correct: int = 0
-    nns: List[List[float]] = []
+    instances = [i[0] for i in data].count(curr_class)
 
     for i,j in enumerate(data):
-        # print("finding nn for",curr[0],r,c)
+        to_classify = j[1:]
+        to_classify_class = j[0]
+
         nn_dist = float('INF')
         nn_loc = float('INF')
-        nn_class = float(0)
+        nn_class = 0
+        for k,l in enumerate(data):
+            nn = l[1:]
+            if i != k:
+                # only use 
+                dist = math.sqrt(sum( [(a-b)**2 for (a,b) in zip(to_classify,nn) ] ))
+                if dist < nn_dist:
+                    nn_dist = dist
+                    nn_loc = k
+                    nn_class = l[0]
 
-        if i != r:
-            dist = math.sqrt(sum([(a-b)**2 for (a,b) in zip(j[1:],curr)]))
-            if dist < nn_dist:
-                nn_dist = dist
-                nn_loc = i
-                nn_class = j[0]
-                # print("Found nn: (dist loc class):(",nn_dist,nn_loc,nn_class,")")
-                nns.append(j)
+        # print("Obj",i+1,"is class",j[0],"nn is",nn_loc+1,"which is in class",nn_class, "dist was",nn_dist)
+        if nn_class == to_classify_class:
+            num_correct = num_correct + 1
 
-    for n in nns:
-        print(n[0],curr[0],n[0] == curr[0])
-        if n[0] == curr[0]:
-            num_correct += 1
-
-    acc = (float(num_correct) / len(data))
-    print(num_correct,len(data),acc)
-    # print("Accuracy:",acc)
-    time.sleep(0.5)
-    return acc
+    acc = num_correct / instances
+    print("num correct / num instances = acc |",num_correct,"/",instances,"=",acc)
+    time.sleep(1)
+    return 0.0
 
 def fs(data: List[List[float]]):
-    # set of tuples (level, feature)
     # start empty and add highest accuracy feature at each level
-    add_feature = set() 
+    curr_feature = set() 
     for i,j in enumerate(data):
-        # print("On level:",i+1)
+        print("On level:",i+1)
+        time.sleep(0.5)
         best_accuracy: float = 0
         best_feat: int = 0
 
         # out of C features, find the highest accuracy
-        for k in range(1,len(j)):
-
+        j_class = j[0]
+        for k in range(1,len(j[1:])): # j[1:] to ignore first column (label/class)
             # if we have not seen this feature
-            if k not in add_feature:
-                # print("--Considering adding the",k,"feature")
-                current_accuracy = validate(data,j, i, k)
+            if k not in curr_feature:
+                print("--Considering adding the",k,"feature")
+                time.sleep(0.5)
+                # check the accuracy of the kth feature with our current feature list
+                current_accuracy = validate(data,curr_feature,j_class, k)
+                current_accuracy = 1
 
                 if best_accuracy < current_accuracy:
                     best_accuracy = current_accuracy
                     best_feat = k
 
-        add_feature.add(best_feat)
+        curr_feature.add(best_feat)
         print("On level",i+1,"we add feature",best_feat)
         time.sleep(1)
 
