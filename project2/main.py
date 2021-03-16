@@ -30,7 +30,9 @@ def validate(data: List[List[float]], curr_features: set(), feat_to_add) -> floa
  
 def fs(data: List[List[float]]):
     # start empty and add highest accuracy feature at each level
-    curr_features = set() 
+    curr_features = set()
+    # best_set is a tuple of a set and its accuracy
+    best_set = (set(), float('-inf'))
     for i,j in enumerate(data):
         # print("On level:",i+1)
         best_accuracy: float = 0
@@ -54,6 +56,10 @@ def fs(data: List[List[float]]):
             curr_features.add(best_feat)
             print("On level",i+1,"we add feature",best_feat, "with accuracy of",best_accuracy)
             print("Current features:",curr_features)
+            if best_accuracy > best_set[1]:
+                best_set = (set(curr_features),best_accuracy)
+    
+    print("Found best set of features to be:",best_set[0],"with accuracy of",best_set[1])
     
 # https://stackoverflow.com/questions/6492096/automatically-process-numbers-in-e-scientific-notation-in-python
 # https://stackoverflow.com/questions/44461551/how-to-print-map-object-with-python-3
