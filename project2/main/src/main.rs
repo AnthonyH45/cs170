@@ -3,10 +3,15 @@
 // https://doc.rust-lang.org/book/ch01-03-hello-cargo.html
 // https://doc.rust-lang.org/std/io/trait.Read.html#method.read_to_string
 // https://doc.rust-lang.org/std/path/struct.Path.html
+// https://users.rust-lang.org/t/not-able-to-open-file-even-though-it-is-there-working-with-absolute-path-but-not-relative-path/19525
+// https://doc.rust-lang.org/rust-by-example/std_misc/file/open.html
+// https://doc.rust-lang.org/std/env/index.html
+// https://doc.rust-lang.org/std/path/struct.PathBuf.html
+// https://github.com/PascalPrecht/rustlings
 // # CS170_largetestdata__9.txt
 // # CS170_SMALLtestdata__72.txt
 
-use std::{env, path::Path, fs::File, io, io::prelude::*};
+use std::{env, fs::File, io, io::prelude::*};
 
 fn main() -> std::io::Result<()> {
     println!("Welcome to Anthony Hallak's Feature Selection Algorithm!");
@@ -17,10 +22,9 @@ fn main() -> std::io::Result<()> {
 
     let mut curr_dir = env::current_dir()?;
     curr_dir.push(filename);
-    let mut unwrap = curr_dir.into_os_string().into_string().unwrap()
-    let path = Path::new(&mut unwrap);
-    // println!("{}",curr_dir.into_os_string().into_string().unwrap());
-    let mut file = File::open(path)?;
+    let mut unwrap = curr_dir.into_os_string().into_string().unwrap();
+    println!("{}",unwrap);
+    let mut file = File::open(&mut unwrap)?;
     println!("21got here");
 
     let mut contents = String::new();

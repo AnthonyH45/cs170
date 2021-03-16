@@ -14,6 +14,7 @@ def validate(data: List[List[float]], curr_features: set(), feat_to_add) -> floa
         nn_dist = float('INF')
         nn_class = 0
         for k,l in enumerate(data):
+            # dont compare to self
             if i != k:
                 # only use the features in curr_features and feat_to_add
                 to = [n for m,n in enumerate(j) if m in curr_features or m == feat_to_add]
@@ -29,6 +30,39 @@ def validate(data: List[List[float]], curr_features: set(), feat_to_add) -> floa
     acc = num_correct / instances
     return acc
  
+# backelim, just make curr_features not have k, then set k = 0
+def be(data: List[List[float]]):
+    # start full and remove lowest accuracy feature at each level
+    curr_features = set([i for i in range(1,len(data[0]))])
+    # best_set is a tuple of a set and its accuracy
+    best_set = (set(), float('-inf'))
+    for i,j in enumerate(data):
+        # print("On level:",i+1)
+        best_acc = float('-inf')
+        feat_to_rem = -1
+
+        # out of C features, find the lowest accuracy
+        for k in range(1,len(j)): # start at 1 to ignore first column (label/class)
+            # if we can remove this feature
+            if k in curr_features:
+                # print("--Considering removing the",k,"feature")
+                # check the accuracy of the kth feature with our current feature list WITHOUT the feature
+                current_accuracy = validate(data,set([i for i in range(1,len(data[0])) if i != k]),-1)
+                # print("accuracy for removing feature",current_accuracy)
+
+                if best_acc < current_accuracy:
+                    best_acc = current_accuracy
+                    feat_to_rem = k
+
+        if feat_to_rem > 0:
+            curr_features.remove(feat_to_rem)
+            print("On level",i+1,"we remove feature",feat_to_rem, "with accuracy of",best_acc)
+            print("Current features:",curr_features)
+            if best_acc > best_set[1]:
+                best_set = (set(curr_features),best_acc)
+    
+    print("Found best set of features to be:",best_set[0],"with accuracy of",best_set[1])
+
 def fs(data: List[List[float]]):
     # start empty and add highest accuracy feature at each level
     curr_features = set()
@@ -46,8 +80,6 @@ def fs(data: List[List[float]]):
                 # print("--Considering adding the",k,"feature")
                 # check the accuracy of the kth feature with our current feature list
                 current_accuracy = validate(data,curr_features, k)
-                if current_accuracy < 0:
-                    return 'failed'
 
                 if best_accuracy < current_accuracy:
                     best_accuracy = current_accuracy
@@ -100,7 +132,10 @@ def main():
         print("Seconds elapsed:",end-start)
     else:
         print("Using Backward Elimination")
+        start = time.time()
         be(parsed_data)
+        end = time.time()
+        print("Seconds elapsed:",end-start)
 
 if __name__ == '__main__':
     main()
