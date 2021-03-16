@@ -1,92 +1,60 @@
 from io import TextIOWrapper
 import math
-import time
 from typing import *
 
 # https://stackoverflow.com/questions/4362586/sum-a-list-of-numbers-in-python
 # takes in data, curr_features, feat_to_add is the column of the feature to add
-def validate(data: List[List[float]], curr_feature: set(), curr_class, feat_to_add) -> float:
-    instances = [i[0] for i in data].count(curr_class)
+def validate(data: List[List[float]], curr_features: set(), feat_to_add) -> float:
+    instances = len([i[0] for i in data])
     num_correct = 0
-    i_loop = 0
-    k_loop = 0
 
+    # find each neighbor using curr_features
     for i,j in enumerate(data):
-        i_loop += 1
-        # print("finding nn for",j)
         nn_dist = float('INF')
-        nn_loc = float('INF')
         nn_class = 0
         for k,l in enumerate(data):
-            k_loop += 1
             if i != k:
-                # print("Asking if",l)
-                # only use the features in curr_feature and feat_to_add
-                to = [n for m,n in enumerate(j) if m in curr_feature or m == feat_to_add]
-                # print(to)
-                nn = [n for m,n in enumerate(l) if m in curr_feature or m == feat_to_add]
-                # print(nn)
-                # print([(a,b) for (a,b) in zip(to,nn)])
+                # only use the features in curr_features and feat_to_add
+                to = [n for m,n in enumerate(j) if m in curr_features or m == feat_to_add]
+                nn = [n for m,n in enumerate(l) if m in curr_features or m == feat_to_add]
                 dist = math.sqrt(sum([(a-b)**2 for (a,b) in zip(to,nn)]))
-                # print(dist)
-                # time.sleep(5)
                 if dist < nn_dist:
                     nn_dist = dist
-                    nn_loc = k
                     nn_class = l[0]
 
         if nn_class == j[0]:
-            num_correct += 1
-            if num_correct > instances:
-                print("WHY!!! num_correct > instances???!!!!!")
-                print("num_correct",num_correct)
-                print("instances",instances)
-                print("nn_dist",nn_dist)
-                print("nn_loc",nn_loc)
-                print("nn",data[nn_loc])
-                print("nn_class",nn_class)
-                print("i_loop",i_loop)
-                print("k_loop",k_loop)
-                print("i",i)
-                print("j",j)
-                print("curr_feature",curr_feature)
-                print("feat_to_add",feat_to_add)
-                return -1
+            num_correct = num_correct + 1
 
     acc = num_correct / instances
-    print("num correct / num instances = acc |",num_correct,"/",instances,"=",acc)
     return acc
-
+ 
 def fs(data: List[List[float]]):
     # start empty and add highest accuracy feature at each level
     curr_features = set() 
     for i,j in enumerate(data):
-        print("On level:",i+1)
-        # time.sleep(0.5)
+        # print("On level:",i+1)
         best_accuracy: float = 0
-        best_feat: int = 0
+        best_feat: int = -1
 
         # out of C features, find the highest accuracy
-        j_class = j[0]
         for k in range(1,len(j)): # start at 1 to ignore first column (label/class)
             # if we have not seen this feature
             if k not in curr_features:
-                print("--Considering adding the",k,"feature")
-                # time.sleep(0.5)
+                # print("--Considering adding the",k,"feature")
                 # check the accuracy of the kth feature with our current feature list
-                current_accuracy = validate(data,curr_features,j_class, k)
+                current_accuracy = validate(data,curr_features, k)
                 if current_accuracy < 0:
-                    return -1000000000
+                    return 'failed'
 
                 if best_accuracy < current_accuracy:
                     best_accuracy = current_accuracy
                     best_feat = k
 
-        curr_features.add(best_feat)
-        print("On level",i+1,"we add feature",best_feat)
-        print("Current features:",curr_features)
-        # time.sleep(10)
-
+        if best_feat > 0:
+            curr_features.add(best_feat)
+            print("On level",i+1,"we add feature",best_feat, "with accuracy of",best_accuracy)
+            print("Current features:",curr_features)
+    
 # https://stackoverflow.com/questions/6492096/automatically-process-numbers-in-e-scientific-notation-in-python
 # https://stackoverflow.com/questions/44461551/how-to-print-map-object-with-python-3
 # https://docs.python.org/3/library/functions.html
