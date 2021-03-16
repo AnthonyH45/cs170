@@ -1,6 +1,7 @@
 from io import TextIOWrapper
-import math
 from typing import *
+import math
+import time
 
 # https://stackoverflow.com/questions/4362586/sum-a-list-of-numbers-in-python
 # takes in data, curr_features, feat_to_add is the column of the feature to add
@@ -93,7 +94,10 @@ def main():
     
     if algo_choice == 1:
         print("Using Forward Selection")
+        start = time.time()
         fs(parsed_data)
+        end = time.time()
+        print("Seconds elapsed:",end-start)
     else:
         print("Using Backward Elimination")
         be(parsed_data)

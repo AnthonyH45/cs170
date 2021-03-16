@@ -5,3 +5,5 @@ __py*
 
 project1/all_traces_desktop_dupsInExpand.txt
 project1/all_traces_desktop_dupsInQueuing.txt
+
+project2/main/target/*
