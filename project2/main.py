@@ -29,7 +29,7 @@ def validate(data: List[List[float]], curr_features: set(), feat_to_add) -> floa
 
     acc = num_correct / instances
     return acc
- 
+
 # backelim, just make curr_features not have k, then set k = 0
 def be(data: List[List[float]]):
     # start full and remove lowest accuracy feature at each level
