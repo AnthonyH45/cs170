@@ -27,52 +27,64 @@
 
 use std::{fs::File, io::prelude::*};
 
-fn read_data() -> String {
+fn read_data() -> Vec<Vec<f64>> {
     let filename = "/mnt/c/Users/zax45/codeSpace/cs170/project2/main/CS170_SMALLtestdata__72.txt";
-    // std::io::stdin().read_line(&mut filename).expect("Cannot read input");
     let mut file = File::open(filename).expect("Cannot open file");
 
     let mut contents = String::new();
     file.read_to_string(&mut contents).expect("Cannot read file");
 
     let to_parse = contents.split_whitespace().collect::<Vec<&str>>();
-    // let mut to_return = Vec::new();
-    // 300 rows
+    let mut to_return: Vec<Vec<f64>>  = Vec::new();
+    let mut to_add: Vec<f64> = Vec::new();
     for (i,j) in to_parse.iter().enumerate() {
-        println!("i = {} and j = {}", i, j.parse::<f64>().unwrap());
+        if i % 11 == 0 && i != 0 {
+            to_return.push(to_add.clone());
+            to_add.clear();
+            to_add.push(j.parse::<f64>().unwrap());
+        } else {
+            to_add.push(j.parse::<f64>().unwrap());
+        }
     }
-    // println!("{:?}",to_parse);
-
-    // small has 11 columns, 300 rows
-    // let mut data = Vec::new();
-    // println!("{:?}",contents.chars());
-
-    return contents;
+    to_return.push(to_add);
+    
+    return to_return;
 }
 
-// fn main() -> std::io::Result<()> {
 fn main() {
     println!("Welcome to Anthony Hallak's Feature Selection Algorithm!");
     let data = read_data();
-    // println!("{}",data);
+    println!("{:?}",data[299]);
 }
 
+
+// std::io::stdin().read_line(&mut filename).expect("Cannot read input");
+// to_return.push(&mut to_add);
+// println!("{:?}",to_add);
+// println!("i = {} and j = {}", i, j.parse::<f64>().unwrap());
+// println!("{:?}",to_return);
+// println!("Adding {}", j.parse::<f64>().unwrap());
+// fn main() -> std::io::Result<()> {
+// println!("{:?}",to_parse);
+// small has 11 columns, 300 rows
+// let mut data = Vec::new();
+// println!("{:?}",contents.chars());
 // println!("Type in the name of the file to test: ");
 // let mut filename = String::new();
 // let filename = "/home/zax/repos/cs170/project2/CS170_SMALLtestdata__72.txt";
-    // let mut curr_dir = env::current_dir()?;
-    // curr_dir.push(filename);
-    // let mut unwrap = curr_dir.into_os_string().into_string().unwrap();
-    // println!("{}",unwrap);
-    // let mut file = File::open(&mut unwrap)?;
-    // println!("21got here");
+// let mut curr_dir = env::current_dir()?;
+// curr_dir.push(filename);
+// let mut unwrap = curr_dir.into_os_string().into_string().unwrap();
+// println!("{}",unwrap);
+// let mut file = File::open(&mut unwrap)?;
+// println!("21got here");
 
-    // let mut contents = String::new();
-    // println!("24got here");
-    // file.read_to_string(&mut contents)?;
+// let mut contents = String::new();
+// println!("24got here");
+// file.read_to_string(&mut contents)?;
 
-    // println!("{}",contents);
-    // Ok(())
+// println!("{}",contents);
+// Ok(())
 // }
 
 //     // let contents = fs::read_to_string(filename)
