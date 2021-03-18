@@ -242,3 +242,287 @@ On level 100 we add feature 74 with accuracy of 0.628
 Current features: {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100}
 Found best set of features to be: {26, 44} with accuracy of 0.95
 Seconds elapsed: 16508.95038342476
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+WITH RUST!!!!
+Welcome to Anthony Hallak's Feature Selection Algorithm!
+Performing Forward Selection on Small data
+On level 1, we add feature 3, with accuracy 0.8133333333333334
+On level 2, we add feature 5, with accuracy 0.97
+On level 3, we add feature 8, with accuracy 0.96
+On level 4, we add feature 2, with accuracy 0.92
+On level 5, we add feature 7, with accuracy 0.88
+On level 6, we add feature 6, with accuracy 0.84
+On level 7, we add feature 9, with accuracy 0.8433333333333334
+On level 8, we add feature 1, with accuracy 0.8133333333333334
+On level 9, we add feature 10, with accuracy 0.7966666666666666
+On level 10, we add feature 4, with accuracy 0.77
+Found best set of features to be: {3, 5}
+with accuracy of 0.97
+Seconds elapsed: 1
+
+Performing Forward Selection on Large data
+On level 1, we add feature 44, with accuracy 0.792
+On level 2, we add feature 26, with accuracy 0.95
+On level 3, we add feature 97, with accuracy 0.932
+On level 4, we add feature 10, with accuracy 0.892
+On level 5, we add feature 37, with accuracy 0.874
+On level 6, we add feature 77, with accuracy 0.86
+On level 7, we add feature 78, with accuracy 0.852
+On level 8, we add feature 81, with accuracy 0.826
+On level 9, we add feature 36, with accuracy 0.798
+On level 10, we add feature 7, with accuracy 0.79
+On level 11, we add feature 27, with accuracy 0.774
+On level 12, we add feature 22, with accuracy 0.774
+On level 13, we add feature 42, with accuracy 0.778
+On level 14, we add feature 45, with accuracy 0.774
+On level 15, we add feature 80, with accuracy 0.762
+On level 16, we add feature 30, with accuracy 0.784
+On level 17, we add feature 72, with accuracy 0.754
+On level 18, we add feature 87, with accuracy 0.756
+On level 19, we add feature 69, with accuracy 0.752
+On level 20, we add feature 35, with accuracy 0.742
+On level 21, we add feature 34, with accuracy 0.744
+On level 22, we add feature 33, with accuracy 0.748
+On level 23, we add feature 20, with accuracy 0.744
+On level 24, we add feature 62, with accuracy 0.746
+On level 25, we add feature 100, with accuracy 0.744
+On level 26, we add feature 43, with accuracy 0.746
+On level 27, we add feature 59, with accuracy 0.758
+On level 28, we add feature 12, with accuracy 0.754
+On level 29, we add feature 51, with accuracy 0.754
+On level 30, we add feature 40, with accuracy 0.75
+On level 31, we add feature 92, with accuracy 0.748
+On level 32, we add feature 84, with accuracy 0.774
+On level 33, we add feature 60, with accuracy 0.78
+On level 34, we add feature 76, with accuracy 0.772
+On level 35, we add feature 68, with accuracy 0.762
+On level 36, we add feature 73, with accuracy 0.772
+On level 37, we add feature 58, with accuracy 0.768
+On level 38, we add feature 57, with accuracy 0.768
+On level 39, we add feature 1, with accuracy 0.774
+On level 40, we add feature 3, with accuracy 0.774
+On level 41, we add feature 63, with accuracy 0.766
+On level 42, we add feature 21, with accuracy 0.774
+On level 43, we add feature 56, with accuracy 0.764
+On level 44, we add feature 15, with accuracy 0.76
+On level 45, we add feature 95, with accuracy 0.758
+On level 46, we add feature 17, with accuracy 0.768
+On level 47, we add feature 61, with accuracy 0.76
+On level 48, we add feature 13, with accuracy 0.764
+On level 49, we add feature 18, with accuracy 0.758
+On level 50, we add feature 39, with accuracy 0.746
+On level 51, we add feature 16, with accuracy 0.738
+On level 52, we add feature 14, with accuracy 0.74
+On level 53, we add feature 25, with accuracy 0.748
+On level 54, we add feature 9, with accuracy 0.752
+On level 55, we add feature 67, with accuracy 0.754
+On level 56, we add feature 65, with accuracy 0.754
+On level 57, we add feature 54, with accuracy 0.754
+On level 58, we add feature 96, with accuracy 0.75
+On level 59, we add feature 49, with accuracy 0.756
+On level 60, we add feature 94, with accuracy 0.752
+On level 61, we add feature 79, with accuracy 0.758
+On level 62, we add feature 55, with accuracy 0.762
+On level 63, we add feature 4, with accuracy 0.76
+On level 64, we add feature 89, with accuracy 0.754
+On level 65, we add feature 88, with accuracy 0.756
+On level 66, we add feature 2, with accuracy 0.76
+On level 67, we add feature 28, with accuracy 0.756
+On level 68, we add feature 11, with accuracy 0.75
+On level 69, we add feature 29, with accuracy 0.754
+On level 70, we add feature 83, with accuracy 0.752
+On level 71, we add feature 66, with accuracy 0.754
+On level 72, we add feature 19, with accuracy 0.756
+On level 73, we add feature 46, with accuracy 0.75
+On level 74, we add feature 82, with accuracy 0.756
+On level 75, we add feature 98, with accuracy 0.76
+On level 76, we add feature 70, with accuracy 0.75
+On level 77, we add feature 8, with accuracy 0.742
+On level 78, we add feature 41, with accuracy 0.744
+On level 79, we add feature 93, with accuracy 0.744
+On level 80, we add feature 85, with accuracy 0.746
+On level 81, we add feature 90, with accuracy 0.738
+On level 82, we add feature 24, with accuracy 0.738
+On level 83, we add feature 6, with accuracy 0.734
+On level 84, we add feature 5, with accuracy 0.72
+On level 85, we add feature 48, with accuracy 0.72
+On level 86, we add feature 71, with accuracy 0.714
+On level 87, we add feature 99, with accuracy 0.722
+On level 88, we add feature 38, with accuracy 0.716
+On level 89, we add feature 23, with accuracy 0.706
+On level 90, we add feature 50, with accuracy 0.696
+On level 91, we add feature 64, with accuracy 0.688
+On level 92, we add feature 53, with accuracy 0.684
+On level 93, we add feature 47, with accuracy 0.674
+On level 94, we add feature 52, with accuracy 0.672
+On level 95, we add feature 86, with accuracy 0.676
+On level 96, we add feature 31, with accuracy 0.662
+On level 97, we add feature 32, with accuracy 0.658
+On level 98, we add feature 75, with accuracy 0.652
+On level 99, we add feature 91, with accuracy 0.646
+On level 100, we add feature 74, with accuracy 0.628
+Found best set of features to be: {44, 26}
+with accuracy of 0.95
+Seconds elapsed: 4481.174291541
+
+
+
+
+
+
+
+
+NO LIST COMPREHENSIONS IN RUST
+Welcome to Anthony Hallak's Feature Selection Algorithm!
+Performing Forward Selection on Small data
+On level 1, we add feature 3, with accuracy 0.8133333333333334
+On level 2, we add feature 5, with accuracy 0.97
+On level 3, we add feature 8, with accuracy 0.96
+On level 4, we add feature 2, with accuracy 0.92
+On level 5, we add feature 7, with accuracy 0.88
+On level 6, we add feature 6, with accuracy 0.84
+On level 7, we add feature 9, with accuracy 0.8433333333333334
+On level 8, we add feature 1, with accuracy 0.8133333333333334
+On level 9, we add feature 10, with accuracy 0.7966666666666666
+On level 10, we add feature 4, with accuracy 0.77
+Found best set of features to be: {5, 3}
+with accuracy of 0.97
+Seconds elapsed: 1
+
+Performing Forward Selection on Large data
+On level 1, we add feature 44, with accuracy 0.792
+On level 2, we add feature 26, with accuracy 0.95
+On level 3, we add feature 97, with accuracy 0.932
+On level 4, we add feature 10, with accuracy 0.892
+On level 5, we add feature 37, with accuracy 0.874
+On level 6, we add feature 77, with accuracy 0.86
+On level 7, we add feature 78, with accuracy 0.852
+On level 8, we add feature 81, with accuracy 0.826
+On level 9, we add feature 36, with accuracy 0.798
+On level 10, we add feature 7, with accuracy 0.79
+On level 11, we add feature 27, with accuracy 0.774
+On level 12, we add feature 22, with accuracy 0.774
+On level 13, we add feature 42, with accuracy 0.778
+On level 14, we add feature 45, with accuracy 0.774
+On level 15, we add feature 80, with accuracy 0.762
+On level 16, we add feature 30, with accuracy 0.784
+On level 17, we add feature 72, with accuracy 0.754
+On level 18, we add feature 87, with accuracy 0.756
+On level 19, we add feature 69, with accuracy 0.752
+On level 20, we add feature 35, with accuracy 0.742
+On level 21, we add feature 34, with accuracy 0.744
+On level 22, we add feature 33, with accuracy 0.748
+On level 23, we add feature 20, with accuracy 0.744
+On level 24, we add feature 62, with accuracy 0.746
+On level 25, we add feature 100, with accuracy 0.744
+On level 26, we add feature 43, with accuracy 0.746
+On level 27, we add feature 59, with accuracy 0.758
+On level 28, we add feature 12, with accuracy 0.754
+On level 29, we add feature 51, with accuracy 0.754
+On level 30, we add feature 40, with accuracy 0.75
+On level 31, we add feature 92, with accuracy 0.748
+On level 32, we add feature 84, with accuracy 0.774
+On level 33, we add feature 60, with accuracy 0.78
+On level 34, we add feature 76, with accuracy 0.772
+On level 35, we add feature 68, with accuracy 0.762
+On level 36, we add feature 73, with accuracy 0.772
+On level 37, we add feature 58, with accuracy 0.768
+On level 38, we add feature 57, with accuracy 0.768
+On level 39, we add feature 1, with accuracy 0.774
+On level 40, we add feature 3, with accuracy 0.774
+On level 41, we add feature 63, with accuracy 0.766
+On level 42, we add feature 21, with accuracy 0.774
+On level 43, we add feature 56, with accuracy 0.764
+On level 44, we add feature 15, with accuracy 0.76
+On level 45, we add feature 95, with accuracy 0.758
+On level 46, we add feature 17, with accuracy 0.768
+On level 47, we add feature 61, with accuracy 0.76
+On level 48, we add feature 13, with accuracy 0.764
+On level 49, we add feature 18, with accuracy 0.758
+On level 50, we add feature 39, with accuracy 0.746
+On level 51, we add feature 16, with accuracy 0.738
+On level 52, we add feature 14, with accuracy 0.74
+On level 53, we add feature 25, with accuracy 0.748
+On level 54, we add feature 9, with accuracy 0.752
+On level 55, we add feature 67, with accuracy 0.754
+On level 56, we add feature 65, with accuracy 0.754
+On level 57, we add feature 54, with accuracy 0.754
+On level 58, we add feature 96, with accuracy 0.75
+On level 59, we add feature 49, with accuracy 0.756
+On level 60, we add feature 94, with accuracy 0.752
+On level 61, we add feature 79, with accuracy 0.758
+On level 62, we add feature 55, with accuracy 0.762
+On level 63, we add feature 4, with accuracy 0.76
+On level 64, we add feature 89, with accuracy 0.754
+On level 65, we add feature 88, with accuracy 0.756
+On level 66, we add feature 2, with accuracy 0.76
+On level 67, we add feature 28, with accuracy 0.756
+On level 68, we add feature 11, with accuracy 0.75
+On level 69, we add feature 29, with accuracy 0.754
+On level 70, we add feature 83, with accuracy 0.752
+On level 71, we add feature 66, with accuracy 0.754
+On level 72, we add feature 19, with accuracy 0.756
+On level 73, we add feature 46, with accuracy 0.75
+On level 74, we add feature 82, with accuracy 0.756
+On level 75, we add feature 98, with accuracy 0.76
+On level 76, we add feature 70, with accuracy 0.75
+On level 77, we add feature 8, with accuracy 0.742
+On level 78, we add feature 41, with accuracy 0.744
+On level 79, we add feature 93, with accuracy 0.744
+On level 80, we add feature 85, with accuracy 0.746
+On level 81, we add feature 90, with accuracy 0.738
+On level 82, we add feature 24, with accuracy 0.738
+On level 83, we add feature 6, with accuracy 0.734
+On level 84, we add feature 5, with accuracy 0.72
+On level 85, we add feature 48, with accuracy 0.72
+On level 86, we add feature 71, with accuracy 0.714
+On level 87, we add feature 99, with accuracy 0.722
+On level 88, we add feature 38, with accuracy 0.716
+On level 89, we add feature 23, with accuracy 0.706
+On level 90, we add feature 50, with accuracy 0.696
+On level 91, we add feature 64, with accuracy 0.688
+On level 92, we add feature 53, with accuracy 0.684
+On level 93, we add feature 47, with accuracy 0.674
+On level 94, we add feature 52, with accuracy 0.672
+On level 95, we add feature 86, with accuracy 0.676
+On level 96, we add feature 31, with accuracy 0.662
+On level 97, we add feature 32, with accuracy 0.658
+On level 98, we add feature 75, with accuracy 0.652
+On level 99, we add feature 91, with accuracy 0.646
+On level 100, we add feature 74, with accuracy 0.628
+Found best set of features to be: {44, 26}
+with accuracy of 0.95
+Seconds elapsed: 4133.858238234

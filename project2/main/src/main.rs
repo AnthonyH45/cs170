@@ -1,6 +1,6 @@
 use std::{fs::File, io::prelude::*, collections::HashSet};
-#[macro_use(c)]
-extern crate cute;
+// #[macro_use(c)]
+// extern crate cute;
 
 fn read_large_data() -> Vec<Vec<f64>> {
     let filename = "/home/zax/repos/cs170/project2/main/CS170_largetestdata__9.txt";
@@ -68,9 +68,31 @@ fn validate(data: Vec<Vec<f64>>, curr_features: HashSet<usize>, feat_to_add: usi
 
         for (k,l) in data.iter().enumerate() {
             if i != k {
-                let to: Vec<f64> = c![j[m], for m in 0..j.len(), if curr_features.contains(&m) || m == feat_to_add];
-                let nn: Vec<f64> = c![l[m], for m in 0..l.len(), if curr_features.contains(&m) || m == feat_to_add];
-                let dist = c![f64::powf(to[a]-nn[a],2.0), for a in 0..to.len()].iter().sum::<f64>().sqrt();
+                let mut to: Vec<f64> = Vec::new();
+                for m in 0..j.len() {
+                    if curr_features.contains(&m) == true || m == feat_to_add {
+                        to.push(j[m]);
+                    }
+                }
+                let mut nn: Vec<f64> = Vec::new();
+                for n in 0..l.len() {
+                    if curr_features.contains(&n) == true || n == feat_to_add {
+                        nn.push(l[n]);
+                    }
+                }
+                // let to: Vec<f64> = c![j[m], for m in 0..j.len(), if curr_features.contains(&m) || m == feat_to_add];
+                // let nn: Vec<f64> = c![l[m], for m in 0..l.len(), if curr_features.contains(&m) || m == feat_to_add];
+                // let dist = c![f64::powf(to[a]-nn[a],2.0), for a in 0..to.len()].iter().sum::<f64>().sqrt();
+                // let dist = c![f64::pow((a-b),2), for a in j.iter().zip(l.iter()).len() ].iter().sum().sqrt();
+                // println!("Eval: {:?}\n{:?}\n\n",to,nn);
+                // let mut sum: f64 = 0.0;
+
+                let mut dist: f64 = 0.0;
+                // to and nn are same length, so this is ok
+                for m in 0..to.len() {
+                    dist = dist + f64::powf(to[m]-nn[m],2.0)
+                }
+                dist = dist.sqrt();
 
                 if dist < nn_dist {
                     nn_dist = dist;
@@ -141,6 +163,15 @@ fn main() {
     fs(data);
     println!("Seconds elapsed: {:?}", start.elapsed().as_secs_f64());
 }
+
+
+
+
+
+
+
+
+
 
 // https://users.rust-lang.org/t/why-is-it-so-difficult-to-get-user-input-in-rust/27444
 // https://doc.rust-lang.org/std/fs/struct.File.html
