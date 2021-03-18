@@ -3,7 +3,8 @@ use std::{fs::File, io::prelude::*, collections::HashSet};
 // extern crate cute;
 
 fn read_large_data() -> Vec<Vec<f64>> {
-    let filename = "/home/zax/repos/cs170/project2/main/CS170_largetestdata__9.txt";
+    let filename = "/mnt/c/Users/zax45/codeSpace/cs170/project2/main/CS170_largetestdata__9.txt";
+    // let filename = "/home/zax/repos/cs170/project2/main/CS170_largetestdata__9.txt";
     let mut file = File::open(filename).expect("Cannot open file");
 
     let mut contents = String::new();
@@ -30,8 +31,8 @@ fn read_large_data() -> Vec<Vec<f64>> {
 }
 
 fn read_small_data() -> Vec<Vec<f64>> {
-    // let filename = "/mnt/c/Users/zax45/codeSpace/cs170/project2/main/CS170_SMALLtestdata__72.txt";
-    let filename = "/home/zax/repos/cs170/project2/main/CS170_SMALLtestdata__72.txt";
+    let filename = "/mnt/c/Users/zax45/codeSpace/cs170/project2/main/CS170_SMALLtestdata__72.txt";
+    // let filename = "/home/zax/repos/cs170/project2/main/CS170_SMALLtestdata__72.txt";
     let mut file = File::open(filename).expect("Cannot open file");
 
     let mut contents = String::new();
@@ -57,7 +58,7 @@ fn read_small_data() -> Vec<Vec<f64>> {
     return to_return;
 }
 
-fn validate(data: Vec<Vec<f64>>, curr_features: HashSet<usize>, feat_to_add: usize) -> f64 {
+fn validate(data: &Vec<Vec<f64>>, curr_features: HashSet<usize>, feat_to_add: usize) -> f64 {
     let total = data.len() as f64;
     let mut num_correct = 0 as f64;
 
@@ -110,6 +111,53 @@ fn validate(data: Vec<Vec<f64>>, curr_features: HashSet<usize>, feat_to_add: usi
     return acc;
 }
 
+fn be(data: Vec<Vec<f64>>) {
+    // set of features
+    let mut curr_features: HashSet::<usize> = HashSet::new();
+    // add all features
+    for (i,_) in data[0].iter().enumerate() {
+        if i != 0 {
+            curr_features.insert(i);
+        }
+    }
+    // best set of features and accuracy so far
+    let mut best_set: (HashSet<usize>, f64) = (HashSet::new(), -1.0);
+
+    for (i,j) in data.iter().enumerate() {
+        // println!("i={}",i);
+        let mut best_accuracy: f64 = 0.0;
+        let mut feat_to_rem: usize = 0;
+
+        // out of j features, pick the lowest priority to remove
+        for (k,_) in j.iter().enumerate() {
+            // println!("k={}",k);
+            if curr_features.contains(&k) == true && k != 0 {
+                // println!("k not seen before");
+                let mut remed = curr_features.clone();
+                remed.remove(&k);
+                let current_accuracy = validate(&data, remed, std::usize::MAX);
+                // println!("curr_acc={}",current_accuracy);
+
+                if best_accuracy < current_accuracy {
+                    best_accuracy = current_accuracy;
+                    // println!("New best accuracy={}",best_accuracy);
+                    feat_to_rem = k;
+                }
+            }
+        }
+
+        if feat_to_rem > 0 {
+            curr_features.remove(&feat_to_rem);
+            println!("On level {}, we remove feature {}, and get an accuracy of {}", i+1, feat_to_rem, best_accuracy);
+            if best_accuracy > best_set.1 {
+                best_set = (curr_features.clone(), best_accuracy)
+            }
+        }
+    }
+
+    println!("Found best set of features to be: {:?}\nwith accuracy of {}",best_set.0,best_set.1);
+}
+
 fn fs(data: Vec<Vec<f64>>) {
     // set of features
     let mut curr_features: HashSet::<usize> = HashSet::new();
@@ -121,12 +169,12 @@ fn fs(data: Vec<Vec<f64>>) {
         let mut best_accuracy: f64 = 0.0;
         let mut best_feat: usize = 0;
 
-        // out of l features, 
+        // out of j features, pick the hiighest accuracy
         for (k,_) in j.iter().enumerate() {
             // println!("k={}",k);
             if curr_features.contains(&k) == false && k != 0 {                
                 // println!("k not seen before");
-                let current_accuracy = validate(data.clone(), curr_features.clone(), k);
+                let current_accuracy = validate(&data, curr_features.clone(), k);
                 // println!("curr_acc={}",current_accuracy);
 
                 if best_accuracy < current_accuracy {
@@ -157,10 +205,24 @@ fn main() {
     fs(data);
     println!("Seconds elapsed: {}", start.elapsed().as_secs());
     println!("");
+
+    let data = read_small_data();
+    println!("Performing Backward Elimination on Small data");
+    let start = std::time::Instant::now();
+    be(data);
+    println!("Seconds elapsed: {}", start.elapsed().as_secs());
+    println!("");
+
     println!("Performing Forward Selection on Large data");
     let data = read_large_data();
     let start = std::time::Instant::now();
     fs(data);
+    println!("Seconds elapsed: {:?}", start.elapsed().as_secs_f64());
+
+    println!("Performing Backward Elimination on Large data");
+    let data = read_large_data();
+    let start = std::time::Instant::now();
+    be(data);
     println!("Seconds elapsed: {:?}", start.elapsed().as_secs_f64());
 }
 

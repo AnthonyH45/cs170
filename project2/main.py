@@ -56,7 +56,7 @@ def be(data: List[List[float]]):
 
         if feat_to_rem > 0:
             curr_features.remove(feat_to_rem)
-            print("On level",i+1,"we remove feature",feat_to_rem, "with accuracy of",best_acc)
+            print("On level",i+1,"we remove feature",feat_to_rem, "and get an accuracy of",best_acc)
             print("Current features:",curr_features)
             if best_acc > best_set[1]:
                 best_set = (set(curr_features),best_acc)
