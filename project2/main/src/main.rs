@@ -13,7 +13,10 @@ fn read_large_data() -> Vec<Vec<f64>> {
     let mut to_return: Vec<Vec<f64>>  = Vec::new();
     let mut to_add: Vec<f64> = Vec::new();
     for (i,j) in to_parse.iter().enumerate() {
-        if i % 11 == 0 && i != 0 {
+        // hardcoded columns for now, will change later
+        // 1st column for lablel, 100 columns for features
+        if i % 101 == 0 && i != 0 {
+            // possible fix this line? clone might be costly
             to_return.push(to_add.clone());
             to_add.clear();
             to_add.push(j.parse::<f64>().unwrap());
@@ -38,7 +41,10 @@ fn read_small_data() -> Vec<Vec<f64>> {
     let mut to_return: Vec<Vec<f64>>  = Vec::new();
     let mut to_add: Vec<f64> = Vec::new();
     for (i,j) in to_parse.iter().enumerate() {
+        // hardcoded columns for now, will change later
+        // 1st column for lablel, 10 columns for features
         if i % 11 == 0 && i != 0 {
+            // possible fix this line? clone might be costly
             to_return.push(to_add.clone());
             to_add.clear();
             to_add.push(j.parse::<f64>().unwrap());
@@ -56,36 +62,15 @@ fn validate(data: Vec<Vec<f64>>, curr_features: HashSet<usize>, feat_to_add: usi
     let mut num_correct = 0 as f64;
 
     for (i,j) in data.iter().enumerate() {
-        // println!("Finding nn for {:?}", j);
+        // println!("=============================\nFinding nn for {:?}", j);
         let mut nn_dist = std::f64::MAX;
         let mut nn_class = 0.0;
 
         for (k,l) in data.iter().enumerate() {
             if i != k {
-                // let mut to: Vec<f64> = Vec::new();
-                // for m in 0..j.len() {
-                //     if curr_features.contains(&m) == false || m == feat_to_add {
-                //         to.push(j[m]);
-                //     }
-                // }
-                // let mut nn: Vec<f64> = Vec::new();
-                // for m in 0..l.len() {
-                //     if curr_features.contains(&m) == false || m == feat_to_add {
-                //         nn.push(l[m]);
-                //     }
-                // }
                 let to: Vec<f64> = c![j[m], for m in 0..j.len(), if curr_features.contains(&m) || m == feat_to_add];
                 let nn: Vec<f64> = c![l[m], for m in 0..l.len(), if curr_features.contains(&m) || m == feat_to_add];
-                // let dist = c![f64::pow((a-b),2), for a in j.iter().zip(l.iter()).len() ].iter().sum().sqrt();
-                // println!("Eval: {:?}\n{:?}\n\n",to,nn);
                 let dist = c![f64::powf(to[a]-nn[a],2.0), for a in 0..to.len()].iter().sum::<f64>().sqrt();
-                // j and l are same length, so this is ok
-                // let mut dist: f64 = 0.0;
-                // // let mut sum: f64 = 0.0;
-                // for m in 0..l.len() {
-                //     dist = dist + f64::powf(j[m]-l[m],2.0)
-                // }
-                // dist = dist.sqrt();
 
                 if dist < nn_dist {
                     nn_dist = dist;
@@ -115,7 +100,7 @@ fn fs(data: Vec<Vec<f64>>) {
         let mut best_feat: usize = 0;
 
         // out of l features, 
-        for (k,l) in j.iter().enumerate() {
+        for (k,_) in j.iter().enumerate() {
             // println!("k={}",k);
             if curr_features.contains(&k) == false && k != 0 {                
                 // println!("k not seen before");
@@ -130,7 +115,6 @@ fn fs(data: Vec<Vec<f64>>) {
             }
         }
 
-        // println!("Done with inner loop, best_feat={}",best_feat);
         if best_feat > 0 {
             curr_features.insert(best_feat);
             println!("On level {}, we add feature {}, with accuracy {}", i+1, best_feat, best_accuracy);
@@ -150,21 +134,13 @@ fn main() {
     let start = std::time::Instant::now();
     fs(data);
     println!("Seconds elapsed: {}", start.elapsed().as_secs());
+    println!("");
     println!("Performing Forward Selection on Large data");
     let data = read_large_data();
     let start = std::time::Instant::now();
     fs(data);
-    println!("Seconds elapsed: {}", start.elapsed().as_secs());
+    println!("Seconds elapsed: {:?}", start.elapsed().as_secs_f64());
 }
-
-
-
-
-
-
-
-
-
 
 // https://users.rust-lang.org/t/why-is-it-so-difficult-to-get-user-input-in-rust/27444
 // https://doc.rust-lang.org/std/fs/struct.File.html
@@ -216,6 +192,7 @@ fn main() {
 // https://doc.rust-lang.org/std/collections/hash_set/struct.HashSet.html#method.insert
 // https://doc.rust-lang.org/std/collections/index.html
 // https://doc.rust-lang.org/std/time/struct.Instant.html
+// https://doc.rust-lang.org/book/ch14-01-release-profiles.html
 
 // # CS170_largetestdata__9.txt
 // # CS170_SMALLtestdata__72.txt
