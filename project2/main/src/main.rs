@@ -1,7 +1,6 @@
 use std::{fs::File, io::prelude::*, collections::HashSet};
 #[macro_use(c)]
 extern crate cute;
-// use std::{thread, time};
 
 // fn read_large_data() -> Vec<Vec<f64>> {
 //     let filename = "/mnt/c/Users/zax45/codeSpace/cs170/project2/main/CS170_largetestdata__9.txt";
@@ -98,9 +97,6 @@ fn fs(data: Vec<Vec<f64>>) {
         for (k,l) in j.iter().enumerate() {
             // println!("k={}",k);
             if curr_features.contains(&k) == false && k != 0 {                
-                // let ten_millis = time::Duration::from_millis(1000);
-                // let now = time::Instant::now();
-                // thread::sleep(ten_millis);
                 // println!("k not seen before");
                 let current_accuracy = validate(data.clone(), curr_features.clone(), k);
                 // println!("curr_acc={}",current_accuracy);
@@ -130,7 +126,9 @@ fn main() {
     println!("Welcome to Anthony Hallak's Feature Selection Algorithm!");
     let data = read_small_data();
     println!("Performing Forward Selection on Small data");
+    let start = std::time::Instant::now();
     fs(data);
+    println!("Seconds elapsed: {}", start.elapsed().as_secs());
 }
 
 
@@ -176,51 +174,22 @@ fn main() {
 // https://stackoverflow.com/questions/26643688/how-do-i-split-a-string-in-rust
 // https://doc.rust-lang.org/std/vec/struct.Vec.html
 // https://stackoverflow.com/questions/27312069/how-can-i-iterate-over-a-vector-of-functions-and-call-each-of-them
+// https://users.rust-lang.org/t/what-is-wrong-no-method-found-for-type-in-the-current-scope/2282
+// https://stackoverflow.com/questions/23100534/how-to-sum-the-values-in-an-array-slice-or-vec-in-rust
+// https://www.reddit.com/r/rust/comments/2v2mba/how_to_use_sqrt_function_in_rust/
+// https://www.reddit.com/r/rust/comments/61agwc/how_do_i_powx_y_in_rust/
+// https://stackoverflow.com/questions/34463980/rust-cant-find-crate
+// https://doc.rust-lang.org/cargo/guide/dependencies.html
+// https://stackoverflow.com/questions/27893223/how-do-i-iterate-over-a-range-with-a-custom-step
+// https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip
+// https://github.com/mattgathu/cute
+// https://www.reddit.com/r/rust/comments/6o1wm2/list_comprehensions/
+// https://doc.rust-lang.org/std/thread/fn.sleep.html
+// https://doc.rust-lang.org/std/primitive/index.html
+// https://doc.rust-lang.org/rust-by-example/primitives/tuples.html
+// https://doc.rust-lang.org/std/collections/hash_set/struct.HashSet.html#method.insert
+// https://doc.rust-lang.org/std/collections/index.html
+// https://doc.rust-lang.org/std/time/struct.Instant.html
 
 // # CS170_largetestdata__9.txt
 // # CS170_SMALLtestdata__72.txt
-
-
-// std::io::stdin().read_line(&mut filename).expect("Cannot read input");
-// to_return.push(&mut to_add);
-// println!("{:?}",to_add);
-// println!("i = {} and j = {}", i, j.parse::<f64>().unwrap());
-// println!("{:?}",to_return);
-// println!("Adding {}", j.parse::<f64>().unwrap());
-// fn main() -> std::io::Result<()> {
-// println!("{:?}",to_parse);
-// small has 11 columns, 300 rows
-// let mut data = Vec::new();
-// println!("{:?}",contents.chars());
-// println!("Type in the name of the file to test: ");
-// let mut filename = String::new();
-// let filename = "/home/zax/repos/cs170/project2/CS170_SMALLtestdata__72.txt";
-// let mut curr_dir = env::current_dir()?;
-// curr_dir.push(filename);
-// let mut unwrap = curr_dir.into_os_string().into_string().unwrap();
-// println!("{}",unwrap);
-// let mut file = File::open(&mut unwrap)?;
-// println!("21got here");
-
-// let mut contents = String::new();
-// println!("24got here");
-// file.read_to_string(&mut contents)?;
-
-// println!("{}",contents);
-// Ok(())
-// }
-
-//     // let contents = fs::read_to_string(filename)
-//     //     .expect("Something went wrong reading the file");
-//     println!("With text:\n{}", contents);
-// }
-// use std::fs::File;
-// use std::io::prelude::*;
-// fn main() -> std::io::Result<()> {
-//     let mut file = File::open("CS170_SMALLtestdata__72.txt")?;
-//     let mut contents = String::new();
-//     file.read_to_string(&mut contents)?;
-//     assert_eq!(contents, "Hello, world!");
-//     println!("{}",contents);
-//     Ok(())
-// }
