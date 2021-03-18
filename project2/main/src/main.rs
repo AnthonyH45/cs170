@@ -2,32 +2,33 @@ use std::{fs::File, io::prelude::*, collections::HashSet};
 #[macro_use(c)]
 extern crate cute;
 
-// fn read_large_data() -> Vec<Vec<f64>> {
-//     let filename = "/mnt/c/Users/zax45/codeSpace/cs170/project2/main/CS170_largetestdata__9.txt";
-//     let mut file = File::open(filename).expect("Cannot open file");
+fn read_large_data() -> Vec<Vec<f64>> {
+    let filename = "/home/zax/repos/cs170/project2/main/CS170_largetestdata__9.txt";
+    let mut file = File::open(filename).expect("Cannot open file");
 
-//     let mut contents = String::new();
-//     file.read_to_string(&mut contents).expect("Cannot read file");
+    let mut contents = String::new();
+    file.read_to_string(&mut contents).expect("Cannot read file");
 
-//     let to_parse = contents.split_whitespace().collect::<Vec<&str>>();
-//     let mut to_return: Vec<Vec<f64>>  = Vec::new();
-//     let mut to_add: Vec<f64> = Vec::new();
-//     for (i,j) in to_parse.iter().enumerate() {
-//         if i % 11 == 0 && i != 0 {
-//             to_return.push(to_add.clone());
-//             to_add.clear();
-//             to_add.push(j.parse::<f64>().unwrap());
-//         } else {
-//             to_add.push(j.parse::<f64>().unwrap());
-//         }
-//     }
-//     to_return.push(to_add);
-    
-//     return to_return;
-// }
+    let to_parse = contents.split_whitespace().collect::<Vec<&str>>();
+    let mut to_return: Vec<Vec<f64>>  = Vec::new();
+    let mut to_add: Vec<f64> = Vec::new();
+    for (i,j) in to_parse.iter().enumerate() {
+        if i % 11 == 0 && i != 0 {
+            to_return.push(to_add.clone());
+            to_add.clear();
+            to_add.push(j.parse::<f64>().unwrap());
+        } else {
+            to_add.push(j.parse::<f64>().unwrap());
+        }
+    }
+    to_return.push(to_add);
+
+    return to_return;
+}
 
 fn read_small_data() -> Vec<Vec<f64>> {
-    let filename = "/mnt/c/Users/zax45/codeSpace/cs170/project2/main/CS170_SMALLtestdata__72.txt";
+    // let filename = "/mnt/c/Users/zax45/codeSpace/cs170/project2/main/CS170_SMALLtestdata__72.txt";
+    let filename = "/home/zax/repos/cs170/project2/main/CS170_SMALLtestdata__72.txt";
     let mut file = File::open(filename).expect("Cannot open file");
 
     let mut contents = String::new();
@@ -61,10 +62,30 @@ fn validate(data: Vec<Vec<f64>>, curr_features: HashSet<usize>, feat_to_add: usi
 
         for (k,l) in data.iter().enumerate() {
             if i != k {
+                // let mut to: Vec<f64> = Vec::new();
+                // for m in 0..j.len() {
+                //     if curr_features.contains(&m) == false || m == feat_to_add {
+                //         to.push(j[m]);
+                //     }
+                // }
+                // let mut nn: Vec<f64> = Vec::new();
+                // for m in 0..l.len() {
+                //     if curr_features.contains(&m) == false || m == feat_to_add {
+                //         nn.push(l[m]);
+                //     }
+                // }
                 let to: Vec<f64> = c![j[m], for m in 0..j.len(), if curr_features.contains(&m) || m == feat_to_add];
                 let nn: Vec<f64> = c![l[m], for m in 0..l.len(), if curr_features.contains(&m) || m == feat_to_add];
                 // let dist = c![f64::pow((a-b),2), for a in j.iter().zip(l.iter()).len() ].iter().sum().sqrt();
+                // println!("Eval: {:?}\n{:?}\n\n",to,nn);
                 let dist = c![f64::powf(to[a]-nn[a],2.0), for a in 0..to.len()].iter().sum::<f64>().sqrt();
+                // j and l are same length, so this is ok
+                // let mut dist: f64 = 0.0;
+                // // let mut sum: f64 = 0.0;
+                // for m in 0..l.len() {
+                //     dist = dist + f64::powf(j[m]-l[m],2.0)
+                // }
+                // dist = dist.sqrt();
 
                 if dist < nn_dist {
                     nn_dist = dist;
@@ -126,6 +147,11 @@ fn main() {
     println!("Welcome to Anthony Hallak's Feature Selection Algorithm!");
     let data = read_small_data();
     println!("Performing Forward Selection on Small data");
+    let start = std::time::Instant::now();
+    fs(data);
+    println!("Seconds elapsed: {}", start.elapsed().as_secs());
+    println!("Performing Forward Selection on Large data");
+    let data = read_large_data();
     let start = std::time::Instant::now();
     fs(data);
     println!("Seconds elapsed: {}", start.elapsed().as_secs());
