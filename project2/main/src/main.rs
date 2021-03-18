@@ -2,7 +2,7 @@ use std::{fs::File, io::prelude::*, collections::HashSet};
 // #[macro_use(c)]
 // extern crate cute;
 
-fn read_large_data() -> Vec<Vec<f64>> {
+fn read_large_data() -> Vec<Vec<f32>> {
     let filename = "/mnt/c/Users/zax45/codeSpace/cs170/project2/main/CS170_largetestdata__9.txt";
     // let filename = "/home/zax/repos/cs170/project2/main/CS170_largetestdata__9.txt";
     let mut file = File::open(filename).expect("Cannot open file");
@@ -11,8 +11,8 @@ fn read_large_data() -> Vec<Vec<f64>> {
     file.read_to_string(&mut contents).expect("Cannot read file");
 
     let to_parse = contents.split_whitespace().collect::<Vec<&str>>();
-    let mut to_return: Vec<Vec<f64>>  = Vec::new();
-    let mut to_add: Vec<f64> = Vec::new();
+    let mut to_return: Vec<Vec<f32>>  = Vec::new();
+    let mut to_add: Vec<f32> = Vec::new();
     for (i,j) in to_parse.iter().enumerate() {
         // hardcoded columns for now, will change later
         // 1st column for lablel, 100 columns for features
@@ -20,9 +20,9 @@ fn read_large_data() -> Vec<Vec<f64>> {
             // possible fix this line? clone might be costly
             to_return.push(to_add.clone());
             to_add.clear();
-            to_add.push(j.parse::<f64>().unwrap());
+            to_add.push(j.parse::<f32>().unwrap());
         } else {
-            to_add.push(j.parse::<f64>().unwrap());
+            to_add.push(j.parse::<f32>().unwrap());
         }
     }
     to_return.push(to_add);
@@ -30,7 +30,7 @@ fn read_large_data() -> Vec<Vec<f64>> {
     return to_return;
 }
 
-fn read_small_data() -> Vec<Vec<f64>> {
+fn read_small_data() -> Vec<Vec<f32>> {
     let filename = "/mnt/c/Users/zax45/codeSpace/cs170/project2/main/CS170_SMALLtestdata__72.txt";
     // let filename = "/home/zax/repos/cs170/project2/main/CS170_SMALLtestdata__72.txt";
     let mut file = File::open(filename).expect("Cannot open file");
@@ -39,8 +39,8 @@ fn read_small_data() -> Vec<Vec<f64>> {
     file.read_to_string(&mut contents).expect("Cannot read file");
 
     let to_parse = contents.split_whitespace().collect::<Vec<&str>>();
-    let mut to_return: Vec<Vec<f64>>  = Vec::new();
-    let mut to_add: Vec<f64> = Vec::new();
+    let mut to_return: Vec<Vec<f32>>  = Vec::new();
+    let mut to_add: Vec<f32> = Vec::new();
     for (i,j) in to_parse.iter().enumerate() {
         // hardcoded columns for now, will change later
         // 1st column for lablel, 10 columns for features
@@ -48,9 +48,9 @@ fn read_small_data() -> Vec<Vec<f64>> {
             // possible fix this line? clone might be costly
             to_return.push(to_add.clone());
             to_add.clear();
-            to_add.push(j.parse::<f64>().unwrap());
+            to_add.push(j.parse::<f32>().unwrap());
         } else {
-            to_add.push(j.parse::<f64>().unwrap());
+            to_add.push(j.parse::<f32>().unwrap());
         }
     }
     to_return.push(to_add);
@@ -58,40 +58,40 @@ fn read_small_data() -> Vec<Vec<f64>> {
     return to_return;
 }
 
-fn validate(data: &Vec<Vec<f64>>, curr_features: HashSet<usize>, feat_to_add: usize) -> f64 {
-    let total = data.len() as f64;
-    let mut num_correct = 0 as f64;
+fn validate(data: &Vec<Vec<f32>>, curr_features: HashSet<usize>, feat_to_add: usize) -> f32 {
+    let total = data.len() as f32;
+    let mut num_correct = 0 as f32;
 
     for (i,j) in data.iter().enumerate() {
         // println!("=============================\nFinding nn for {:?}", j);
-        let mut nn_dist = std::f64::MAX;
+        let mut nn_dist = std::f32::MAX;
         let mut nn_class = 0.0;
 
         for (k,l) in data.iter().enumerate() {
             if i != k {
-                let mut to: Vec<f64> = Vec::new();
+                let mut to: Vec<f32> = Vec::new();
                 for m in 0..j.len() {
                     if curr_features.contains(&m) == true || m == feat_to_add {
                         to.push(j[m]);
                     }
                 }
-                let mut nn: Vec<f64> = Vec::new();
+                let mut nn: Vec<f32> = Vec::new();
                 for n in 0..l.len() {
                     if curr_features.contains(&n) == true || n == feat_to_add {
                         nn.push(l[n]);
                     }
                 }
-                // let to: Vec<f64> = c![j[m], for m in 0..j.len(), if curr_features.contains(&m) || m == feat_to_add];
-                // let nn: Vec<f64> = c![l[m], for m in 0..l.len(), if curr_features.contains(&m) || m == feat_to_add];
-                // let dist = c![f64::powf(to[a]-nn[a],2.0), for a in 0..to.len()].iter().sum::<f64>().sqrt();
-                // let dist = c![f64::pow((a-b),2), for a in j.iter().zip(l.iter()).len() ].iter().sum().sqrt();
+                // let to: Vec<f32> = c![j[m], for m in 0..j.len(), if curr_features.contains(&m) || m == feat_to_add];
+                // let nn: Vec<f32> = c![l[m], for m in 0..l.len(), if curr_features.contains(&m) || m == feat_to_add];
+                // let dist = c![f32::powf(to[a]-nn[a],2.0), for a in 0..to.len()].iter().sum::<f32>().sqrt();
+                // let dist = c![f32::pow((a-b),2), for a in j.iter().zip(l.iter()).len() ].iter().sum().sqrt();
                 // println!("Eval: {:?}\n{:?}\n\n",to,nn);
-                // let mut sum: f64 = 0.0;
+                // let mut sum: f32 = 0.0;
 
-                let mut dist: f64 = 0.0;
+                let mut dist: f32 = 0.0;
                 // to and nn are same length, so this is ok
                 for m in 0..to.len() {
-                    dist = dist + f64::powf(to[m]-nn[m],2.0)
+                    dist = dist + f32::powf(to[m]-nn[m],2.0)
                 }
                 dist = dist.sqrt();
 
@@ -111,7 +111,7 @@ fn validate(data: &Vec<Vec<f64>>, curr_features: HashSet<usize>, feat_to_add: us
     return acc;
 }
 
-fn be(data: Vec<Vec<f64>>) {
+fn be(data: Vec<Vec<f32>>) {
     // set of features
     let mut curr_features: HashSet::<usize> = HashSet::new();
     // add all features
@@ -121,11 +121,11 @@ fn be(data: Vec<Vec<f64>>) {
         }
     }
     // best set of features and accuracy so far
-    let mut best_set: (HashSet<usize>, f64) = (HashSet::new(), -1.0);
+    let mut best_set: (HashSet<usize>, f32) = (HashSet::new(), -1.0);
 
     for (i,j) in data.iter().enumerate() {
         // println!("i={}",i);
-        let mut best_accuracy: f64 = 0.0;
+        let mut best_accuracy: f32 = 0.0;
         let mut feat_to_rem: usize = 0;
 
         // out of j features, pick the lowest priority to remove
@@ -158,15 +158,15 @@ fn be(data: Vec<Vec<f64>>) {
     println!("Found best set of features to be: {:?}\nwith accuracy of {}",best_set.0,best_set.1);
 }
 
-fn fs(data: Vec<Vec<f64>>) {
+fn fs(data: Vec<Vec<f32>>) {
     // set of features
     let mut curr_features: HashSet::<usize> = HashSet::new();
     // best set of features and accuracy so far
-    let mut best_set: (HashSet<usize>, f64) = (HashSet::new(), -1.0);
+    let mut best_set: (HashSet<usize>, f32) = (HashSet::new(), -1.0);
 
     for (i,j) in data.iter().enumerate() {
         // println!("i={}",i);
-        let mut best_accuracy: f64 = 0.0;
+        let mut best_accuracy: f32 = 0.0;
         let mut best_feat: usize = 0;
 
         // out of j features, pick the hiighest accuracy
@@ -217,23 +217,14 @@ fn main() {
     let data = read_large_data();
     let start = std::time::Instant::now();
     fs(data);
-    println!("Seconds elapsed: {:?}", start.elapsed().as_secs_f64());
+    println!("Seconds elapsed: {:?}", start.elapsed().as_secs_f32());
 
     println!("Performing Backward Elimination on Large data");
     let data = read_large_data();
     let start = std::time::Instant::now();
     be(data);
-    println!("Seconds elapsed: {:?}", start.elapsed().as_secs_f64());
+    println!("Seconds elapsed: {:?}", start.elapsed().as_secs_f32());
 }
-
-
-
-
-
-
-
-
-
 
 // https://users.rust-lang.org/t/why-is-it-so-difficult-to-get-user-input-in-rust/27444
 // https://doc.rust-lang.org/std/fs/struct.File.html
@@ -261,7 +252,7 @@ fn main() {
 // https://doc.rust-lang.org/1.2.0/book/for-loops.html
 // https://doc.rust-lang.org/std/vec/struct.Vec.html#method.len
 // https://doc.rust-lang.org/rust-by-example/std/vec.html
-// https://stackoverflow.com/questions/61660794/convert-vecf641-to-vecf64
+// https://stackoverflow.com/questions/61660794/convert-vecf321-to-vecf32
 // https://stackoverflow.com/questions/28800121/what-do-i-have-to-do-to-solve-a-use-of-moved-value-error
 // https://doc.rust-lang.org/std/vec/struct.Vec.html#method.new
 // https://stackoverflow.com/questions/28991050/how-to-iterate-a-vect-with-the-indexed-position
@@ -286,6 +277,10 @@ fn main() {
 // https://doc.rust-lang.org/std/collections/index.html
 // https://doc.rust-lang.org/std/time/struct.Instant.html
 // https://doc.rust-lang.org/book/ch14-01-release-profiles.html
+// https://www.forrestthewoods.com/blog/should-small-rust-structs-be-passed-by-copy-or-by-borrow/
+// https://doc.rust-lang.org/beta/rust-by-example/primitives.html
+// https://doc.rust-lang.org/std/usize/constant.MAX.html
+// https://doc.rust-lang.org/std/collections/struct.HashSet.html#method.remove
 
 // # CS170_largetestdata__9.txt
 // # CS170_SMALLtestdata__72.txt
