@@ -9,6 +9,9 @@ def validate(data: List[List[float]], curr_features: set(), feat_to_add) -> floa
     instances = len([i[0] for i in data])
     num_correct = 0
 
+    if feat_to_add == 0 :
+        feat_to_add = float('inf')
+
     # find each neighbor using curr_features
     for i,j in enumerate(data):
         nn_dist = float('INF')
@@ -18,7 +21,9 @@ def validate(data: List[List[float]], curr_features: set(), feat_to_add) -> floa
             if i != k:
                 # only use the features in curr_features and feat_to_add
                 to = [n for m,n in enumerate(j) if m in curr_features or m == feat_to_add]
+                # print(to)
                 nn = [n for m,n in enumerate(l) if m in curr_features or m == feat_to_add]
+                # print(nn)
                 dist = math.sqrt(sum([(a-b)**2 for (a,b) in zip(to,nn)]))
                 if dist < nn_dist:
                     nn_dist = dist
@@ -28,6 +33,7 @@ def validate(data: List[List[float]], curr_features: set(), feat_to_add) -> floa
             num_correct = num_correct + 1
 
     acc = num_correct / instances
+    print("Accuracy of nothing:",acc)
     return acc
 
 # backelim, just make curr_features not have k, then set k = 0
@@ -69,15 +75,15 @@ def fs(data: List[List[float]]):
     # best_set is a tuple of a set and its accuracy
     best_set = (set(), float('-inf'))
     for i,j in enumerate(data):
-        # print("On level:",i+1)
+        print("On level:",i+1)
         best_accuracy: float = 0
         best_feat: int = -1
 
         # out of C features, find the highest accuracy
-        for k in range(1,len(j)): # start at 1 to ignore first column (label/class)
+        for k in range(0,len(j)): # start at 1 to ignore first column (label/class)
             # if we have not seen this feature
             if k not in curr_features:
-                # print("--Considering adding the",k,"feature")
+                print("--Considering adding the",k,"feature")
                 # check the accuracy of the kth feature with our current feature list
                 current_accuracy = validate(data,curr_features, k)
 
