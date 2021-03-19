@@ -236,7 +236,6 @@ fn fss() {
     let total = data.len() as f32;
 
     for (i,j) in data.iter().enumerate() {
-        // println!("i={}",i);
         let mut best_accuracy: f32 = 0.0;
         let mut best_feat: usize = 0;
 
@@ -246,16 +245,16 @@ fn fss() {
                 let mut num_correct = 0 as f32;
                 let feat_to_eval = k;
             
-                for (i,j) in data.iter().enumerate() {
+                for (i_2,j_2) in data.iter().enumerate() {
                     let mut nn_dist = std::f32::MAX;
                     let mut nn_class = 0.0;
-            
-                    for (k,l) in data.iter().enumerate() {
-                        if i != k {
+
+                    for (k_2,l) in data.iter().enumerate() {
+                        if i_2 != k_2 {
                             let mut to: Vec<f32> = Vec::new();
-                            for m in 0..j.len() {
+                            for m in 0..j_2.len() {
                                 if curr_features.contains(&m) == true || m == feat_to_eval {
-                                    to.push(j[m]);
+                                    to.push(j_2[m]);
                                 }
                             }
                             let mut nn: Vec<f32> = Vec::new();
