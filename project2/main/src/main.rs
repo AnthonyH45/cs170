@@ -16,7 +16,7 @@ fn read_small_data() -> Vec<Vec<f32>> {
     let mut to_add: Vec<f32> = Vec::new();
     for (i,j) in to_parse.iter().enumerate() {
         // hardcoded columns for now, will change later
-        // 1st column for lablel, 10 columns for features
+        // 1st column for label, 10 columns for features
         if i % 11 == 0 && i != 0 {
             // possible fix this line? clone might be costly
             to_return.push(to_add.clone());
@@ -44,7 +44,7 @@ fn read_large_data() -> Vec<Vec<f32>> {
     let mut to_add: Vec<f32> = Vec::new();
     for (i,j) in to_parse.iter().enumerate() {
         // hardcoded columns for now, will change later
-        // 1st column for lablel, 100 columns for features
+        // 1st column for label, 100 columns for features
         if i % 101 == 0 && i != 0 {
             // possible fix this line? clone might be costly
             to_return.push(to_add.clone());
@@ -468,6 +468,8 @@ fn main() {
 // https://doc.rust-lang.org/std/collections/struct.HashSet.html
 // https://docs.rust-embedded.org/book/unsorted/speed-vs-size.html
 // https://doc.rust-lang.org/cargo/reference/profiles.html
+// https://stackoverflow.com/questions/4114095/how-do-i-revert-a-git-repository-to-a-previous-commit
+// https://stackoverflow.com/questions/5601931/what-is-the-best-and-safest-way-to-merge-a-git-branch-into-master
 
 // # CS170_largetestdata__9.txt
 // # CS170_SMALLtestdata__72.txt
