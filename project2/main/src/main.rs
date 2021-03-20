@@ -117,6 +117,8 @@ fn be(small_or_large: i8) {
         data = read_large_data();
     } else { return; } // if not valid, just return and do nothing
 
+    println!("The dataset has {} features with {} instances", data[0].len()-1, data.len());
+
     // add all features
     let mut curr_features: HashSet::<usize> = HashSet::new();
     for (i,_) in data[0].iter().enumerate() {
@@ -132,6 +134,7 @@ fn be(small_or_large: i8) {
     println!("On level 0, with all features, our accuracy is {}", default_rate);
 
     for (i,j) in data.iter().enumerate() {
+        println!("On level {}",i+1);
         let mut best_accuracy: f32 = 0.0;
         let mut feat_to_rem: usize = 0;
 
@@ -142,6 +145,7 @@ fn be(small_or_large: i8) {
                 remed.extend(&curr_features);
                 remed.remove(&k);
                 let current_accuracy = validate(&data, &remed, 0);
+                println!("--Considering removing feature {} with accuracy {}", k, current_accuracy);
 
                 if best_accuracy < current_accuracy {
                     best_accuracy = current_accuracy;
@@ -159,76 +163,93 @@ fn be(small_or_large: i8) {
                 best_set = (to_add, best_accuracy)
             }
         }
+
+        if curr_features.len() == 0 {
+            println!("Removed all features");
+            break;
+        }
     }
 
-    println!("Found best set of features to be: {:?}\nwith accuracy of {}",best_set.0,best_set.1);
+    println!("\nFound best set of features to be: {:?}\nwith accuracy of {}",best_set.0,best_set.1);
 }
 
-fn fs(small_or_large: i8) {
-    let data: Vec<Vec<f32>>;
-    if small_or_large == 1 {
-        data = read_small_data();
-    } else if small_or_large == 2 {
-        data = read_large_data();
-    } else { return; } // if not valid, just return and do nothing
+// fn fs(small_or_large: i8) {
+//     let data: Vec<Vec<f32>>;
+//     if small_or_large == 1 {
+//         data = read_small_data();
+//     } else if small_or_large == 2 {
+//         data = read_large_data();
+//     } else { return; } // if not valid, just return and do nothing
     
-    // set of features, start empty
-    let mut curr_features: HashSet::<usize> = HashSet::new();
-    // best set of features and accuracy so far
-    let mut best_set: (HashSet<usize>, f32) = (HashSet::new(), -1.0);
+//     // set of features, start empty
+//     let mut curr_features: HashSet::<usize> = HashSet::new();
+//     // best set of features and accuracy so far
+//     let mut best_set: (HashSet<usize>, f32) = (HashSet::new(), -1.0);
 
-    // default rate with no features
-    let default_rate = validate(&data, &curr_features, 0);
-    println!("On level 0, with no features, our accuracy is {}", default_rate);
+//     let num_feats = data[0].len() - 1;
+//     println!("The dataset has {} features with {} instances", num_feats, data.len());
 
-    for (i,j) in data.iter().enumerate() {
-        let mut best_accuracy: f32 = 0.0;
-        let mut best_feat: usize = 0;
+//     // default rate with no features
+//     let default_rate = validate(&data, &curr_features, 0);
+//     println!("On level 0, with no features, our accuracy is {}", default_rate);
 
-        // out of j features, pick the highest accuracy
-        for (k,_) in j.iter().enumerate() {
-            if curr_features.contains(&k) == false && k != 0 {     
-                let current_accuracy = validate(&data, &curr_features, k);
+//     for (i,j) in data.iter().enumerate() {
+//         println!("On level {}",i+1);
+//         let mut best_accuracy: f32 = 0.0;
+//         let mut best_feat: usize = 0;
 
-                if best_accuracy < current_accuracy {
-                    best_accuracy = current_accuracy;
-                    best_feat = k;
-                }
-            }
-        }
+//         // out of j features, pick the highest accuracy
+//         for (k,_) in j.iter().enumerate() {
+//             if curr_features.contains(&k) == false && k != 0 {
+//                 let current_accuracy = validate(&data, &curr_features, k);
 
-        if best_feat > 0 {
-            curr_features.insert(best_feat);
-            println!("On level {}, we add feature {}, with accuracy {}", i+1, best_feat, best_accuracy);
-            if best_accuracy > best_set.1 {
-                let mut to_add: HashSet::<usize> = HashSet::new();
-                to_add.extend(&curr_features);
-                best_set = (to_add, best_accuracy)
-            }
-        }
-    }
+//                 println!("--Considering adding feature {} with accuracy {}", k, current_accuracy);
 
-    println!("Found best set of features to be: {:?}\nwith accuracy of {}",best_set.0,best_set.1);
-}
+//                 if best_accuracy < current_accuracy {
+//                     best_accuracy = current_accuracy;
+//                     best_feat = k;
+//                 }
+//             }
+//         }
+
+//         if best_feat > 0 {
+//             curr_features.insert(best_feat);
+//             println!("On level {}, we add feature {}, with accuracy {}", i+1, best_feat, best_accuracy);
+//             if best_accuracy > best_set.1 {
+//                 let mut to_add: HashSet::<usize> = HashSet::new();
+//                 to_add.extend(&curr_features);
+//                 best_set = (to_add, best_accuracy)
+//             }
+//         }
+
+//         if curr_features.len() == num_feats {
+//             println!("Seen all features");
+//             break;
+//         }
+//     }
+
+
+//     println!("\nFound best set of features to be: {:?}\nwith accuracy of {}",best_set.0,best_set.1);
+// }
 
 fn main() {
-    println!("Welcome to Anthony Hallak's Feature Selection Algorithm!");
-    println!("Performing Forward Selection on Small data");
-    let start = std::time::Instant::now();
-    fs(1); // 1 == small data
-    println!("Seconds elapsed: {}", start.elapsed().as_secs());
-    println!("");
+    // println!("Welcome to Anthony Hallak's Feature Selection Algorithm!");
+    // println!("Performing Forward Selection on Small data");
+    // let start = std::time::Instant::now();
+    // fs(1); // 1 == small data
+    // println!("Seconds elapsed: {}", start.elapsed().as_secs_f32());
+    // println!("");
 
-    println!("Performing Backward Elimination on Small data");
-    let start = std::time::Instant::now();
-    be(1); // 1 == small data
-    println!("Seconds elapsed: {}", start.elapsed().as_secs());
-    println!("");
+    // println!("Performing Backward Elimination on Small data");
+    // let start = std::time::Instant::now();
+    // be(1); // 1 == small data
+    // println!("Seconds elapsed: {}", start.elapsed().as_secs_f32());
+    // println!("");
 
-    println!("Performing Forward Selection on Large data");
-    let start = std::time::Instant::now();
-    fs(2); // 2 == large data
-    println!("Seconds elapsed: {:?}", start.elapsed().as_secs_f32());
+    // println!("Performing Forward Selection on Large data");
+    // let start = std::time::Instant::now();
+    // fs(2); // 2 == large data
+    // println!("Seconds elapsed: {:?}", start.elapsed().as_secs_f32());
     println!("");
 
     println!("Performing Backward Elimination on Large data");
